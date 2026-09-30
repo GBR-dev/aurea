@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <!-- Configurações básicas da página -->
+    <meta charset="UTF-8">
+
+    <!-- Faz o site se adaptar ao celular -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Áurea</title>
+
+    <!-- Arquivo onde está todo o estilo do site -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+    <!-- ==========================================
+         CABEÇALHO
+         ========================================== -->
+
+    <header>
+
+        <!-- Logo da Áurea -->
+        <a href="index.html" class="logo">
+
+            <img
+                src="assets/images/logo/aurea-logo.png"
+                alt="Logo Áurea"
+            >
+
+        </a>
+
+
+        <!-- Botão que aparece somente no celular -->
+        <button
+            class="menu-mobile"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <!-- Menu principal -->
+        <nav id="menu-navegacao">
+
+            <a href="#inicio">
+                Início
+            </a>
+
+            <a href="#colecao">
+                Coleção
+            </a>
+
+            <a href="#sobre">
+                Sobre
+            </a>
+
+            <a href="#contato">
+                Contato
+            </a>
+
+            <a
+                href="https://www.instagram.com/useaurea.m/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Instagram
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- ==========================================
+             PARTE PRINCIPAL DO SITE
+             ========================================== -->
+
+        <section id="inicio">
+
+            <p>
+                Bem-vinda à
+            </p>
+
+            <h1>
+                Áurea
+            </h1>
+
+            <p>
+                Seu estilo, sua essência!
+            </p>
+
+            <a href="#colecao">
+                Ver coleção
+            </a>
+
+        </section>
+
+
+        <!-- ==========================================
+             COLEÇÃO
+             ========================================== -->
+
+        <section id="colecao">
+
+            <h2>
+                Nossa coleção
+            </h2>
+
+
+            <!-- Botões para filtrar os produtos -->
+
+            <div class="filtros-produtos">
+
+                <button
+                    type="button"
+                    class="filtro ativo"
+                    data-categoria="Todos"
+                >
+                    Todos
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-categoria="Blusas"
+                >
+                    Blusas
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-categoria="Calças"
+                >
+                    Calças
+                </button>
+
+            </div>
+
+
+            <!--
+                O JavaScript vai colocar os produtos
+                aqui automaticamente.
+            -->
+
+            <div class="produtos"></div>
+
+        </section>
+
+
+        <!-- ==========================================
+             SOBRE A MARCELE / ÁUREA
+             ========================================== -->
+
+        <section
+            id="sobre"
+            class="secao-sobre"
+        >
+
+            <div class="sobre-conteudo">
+
+                <p class="sobre-subtitulo">
+                    SOBRE MIM
+                </p>
+
+                <h2>
+                    Oi, eu sou a Marcele!
+                </h2>
+
+                <p>
+                    Tenho 20 anos e hoje estou dando
+                    um passo muito especial: tirando
+                    do papel o sonho de empreender e
+                    construir aos poucos, a minha
+                    independência financeira.
+                </p>
+
+                <p>
+                    Atualmente trabalho como auxiliar
+                    comercial e também faço faculdade
+                    de Ciência de Dados. No meio do
+                    trabalho, dos estudos e da correria,
+                    encontrei espaço para começar algo
+                    que sempre tive vontade de fazer:
+                    ter o meu próprio negócio. 🌟
+                </p>
+
+                <p>
+                    Eu amo música, viajar, viver novas
+                    experiências e organizar as coisas.
+                </p>
+
+                <p>
+                    Esse é só o começo, e fico muito
+                    feliz em ter você aqui acompanhando
+                    esse sonho comigo. 💖
+                </p>
+
+                <p>
+                    Seja bem-vinda à minha loja! 💕
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             CONTATO
+             ========================================== -->
+
+        <section
+            id="contato"
+            class="secao-contato"
+        >
+
+            <div class="contato-conteudo">
+
+                <p class="contato-subtitulo">
+                    FALE COM A ÁUREA
+                </p>
+
+                <h2>
+                    Vamos conversar?
+                </h2>
+
+                <p>
+                    Ficou com alguma dúvida sobre
+                    uma peça, tamanho ou disponibilidade?
+                </p>
+
+                <p>
+                    Entre em contato com a gente
+                    pelo Instagram. Será um prazer
+                    falar com você! 💕
+                </p>
+
+                <a
+                    href="https://www.instagram.com/useaurea.m/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="botao-contato"
+                >
+                    Falar pelo Instagram
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         RODAPÉ
+         ========================================== -->
+
+    <footer class="rodape">
+
+        <div class="rodape-conteudo">
+
+            <div class="rodape-marca">
+
+                <a href="#inicio">
+
+                    <img
+                        src="assets/images/logo/aurea-logo.png"
+                        alt="Logo Áurea"
+                    >
+
+                </a>
+
+                <p>
+                    Seu estilo, sua essência!
+                </p>
+
+            </div>
+
+
+            <div class="rodape-links">
+
+                <a href="#inicio">
+                    Início
+                </a>
+
+                <a href="#colecao">
+                    Coleção
+                </a>
+
+                <a href="#sobre">
+                    Sobre
+                </a>
+
+                <a href="#contato">
+                    Contato
+                </a>
+
+                <a
+                    href="https://www.instagram.com/useaurea.m/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Instagram
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="rodape-final">
+
+            <p>
+                © 2026 Áurea. Todos os direitos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!--
+        Primeiro carregamos os dados dos produtos.
+        Depois carregamos o JavaScript principal.
+    -->
+
+    <script src="js/produtos.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

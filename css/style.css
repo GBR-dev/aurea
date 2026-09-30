@@ -1,0 +1,1542 @@
+/* ==========================================
+   RESET
+   Tiro alguns estilos padrões do navegador
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   BODY
+   Estilo geral do site
+   ========================================== */
+
+body {
+    background-color: #F5EDE3;
+    color: #5A321F;
+    font-family: Georgia, serif;
+    line-height: 1.5;
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+header {
+    width: 100%;
+    padding: 20px 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+header img {
+    width: 150px;
+    display: block;
+}
+
+
+/* ==========================================
+   MENU
+   ========================================== */
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+
+nav a {
+    color: #5A321F;
+    text-decoration: none;
+    font-size: 16px;
+
+    transition: color 0.3s ease;
+}
+
+
+nav a:hover {
+    color: #754321;
+}
+
+
+/* ==========================================
+   HERO
+   ========================================== */
+
+#inicio {
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+
+#inicio p:first-child {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+
+#inicio h1 {
+    font-size: 64px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+
+#inicio h1 + p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+
+#inicio a {
+    display: inline-block;
+
+    padding: 12px 28px;
+
+    background-color: #5A321F;
+    color: #F5EDE3;
+
+    text-decoration: none;
+    border-radius: 4px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+#inicio a:hover {
+    background-color: #754321;
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   COLEÇÃO
+   ========================================== */
+
+#colecao {
+    padding: 90px 60px;
+}
+
+
+#colecao h2 {
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: normal;
+
+    margin-bottom: 30px;
+}
+
+
+/* ==========================================
+   FILTROS
+   ========================================== */
+
+.filtros-produtos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 0 0 45px;
+}
+
+
+.filtro {
+    padding: 10px 22px;
+
+    border: 1px solid #754321;
+    border-radius: 30px;
+
+    background-color: transparent;
+    color: #754321;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+.filtro:hover,
+.filtro.ativo {
+    background-color: #754321;
+    color: #F5EDE3;
+}
+
+
+/* ==========================================
+   GRID DOS PRODUTOS
+   ========================================== */
+
+.produtos {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 40px;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* ==========================================
+   CARD
+   ========================================== */
+
+.produto {
+    background-color: #F5EDE3;
+
+    text-align: center;
+
+    padding-bottom: 30px;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.produto:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(90, 50, 31, 0.08);
+}
+
+
+/* ==========================================
+   IMAGEM DO CARD
+   ========================================== */
+
+.produto > .produto-imagem {
+    position: relative;
+
+    width: 100%;
+    height: 430px;
+
+    overflow: hidden;
+
+    background-color: #EDE1D4;
+}
+
+
+.produto > .produto-imagem img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.5s ease;
+}
+
+
+.produto:hover
+> .produto-imagem img {
+    transform: scale(1.02);
+}
+
+
+/* ==========================================
+   SETAS
+   ========================================== */
+
+.seta {
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color:
+        rgba(90, 50, 31, 0.75);
+
+    color: #F5EDE3;
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.seta:hover {
+    background-color: #754321;
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+}
+
+
+.seta-esquerda {
+    left: 12px;
+}
+
+
+.seta-direita {
+    right: 12px;
+}
+
+
+/* ==========================================
+   INDICADORES
+   ========================================== */
+
+.indicadores {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    height: 30px;
+
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+
+.indicador {
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #C8B5A3;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+
+.indicador:hover {
+    transform: scale(1.3);
+}
+
+
+.indicador.ativo {
+    background-color: #5A321F;
+
+    transform: scale(1.25);
+}
+
+
+/* ==========================================
+   INFORMAÇÕES DO PRODUTO
+   ========================================== */
+
+.produto h3 {
+    font-size: 22px;
+    font-weight: normal;
+
+    margin-bottom: 12px;
+
+    transition:
+        color 0.3s ease;
+}
+
+
+.produto h3:hover {
+    color: #754321;
+}
+
+
+/* ==========================================
+   PREÇOS
+   ========================================== */
+
+.precos {
+    margin-bottom: 20px;
+}
+
+
+.preco-pix {
+    font-size: 20px;
+    font-weight: bold;
+
+    margin-bottom: 3px;
+}
+
+
+.preco-cartao {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+
+/* ==========================================
+   CORES
+   ========================================== */
+
+.cores {
+    margin-bottom: 22px;
+}
+
+
+.cores p {
+    margin-bottom: 9px;
+
+    font-size: 14px;
+
+    opacity: 0.8;
+}
+
+
+.cores button {
+    background-color: transparent;
+
+    border: 1px solid #754321;
+
+    color: #5A321F;
+
+    padding: 7px 14px;
+
+    margin: 0 3px 6px;
+
+    cursor: pointer;
+
+    border-radius: 20px;
+
+    font-family: Georgia, serif;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.cores button:hover,
+.cores button.selecionada {
+    background-color: #754321;
+    color: #F5EDE3;
+
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   BOTÃO VER PRODUTO
+   ========================================== */
+
+.botao-instagram {
+    display: inline-block;
+
+    padding: 11px 24px;
+
+    background-color: #5A321F;
+    color: #F5EDE3;
+
+    text-decoration: none;
+
+    border-radius: 4px;
+
+    font-size: 14px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.botao-instagram:hover {
+    background-color: #754321;
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   PRODUTO SEM ESTOQUE / FILTRO VAZIO
+   ========================================== */
+
+.mensagem-sem-produtos {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #754321;
+}
+
+
+/* ==========================================
+   PÁGINA INDIVIDUAL
+   ========================================== */
+
+.pagina-produto {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 80px 40px;
+}
+
+
+.produto-detalhes {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr 1fr;
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+
+/* ==========================================
+   GALERIA DO PRODUTO
+   ========================================== */
+
+.produto-galeria {
+    width: 100%;
+}
+
+
+.produto-detalhes
+.produto-imagem {
+    position: relative;
+
+    width: 100%;
+
+    height: 600px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background-color: #F5EDE3;
+}
+
+
+.produto-detalhes
+.produto-imagem img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* ==========================================
+   SETAS DA PÁGINA DE PRODUTO
+   ========================================== */
+
+.produto-detalhes
+.produto-imagem
+.seta {
+    width: 45px;
+    height: 45px;
+
+    background-color:
+        rgba(90, 50, 31, 0.85);
+
+    font-size: 22px;
+}
+
+
+.produto-detalhes
+.produto-imagem
+.seta-esquerda {
+    left: 20px;
+}
+
+
+.produto-detalhes
+.produto-imagem
+.seta-direita {
+    right: 20px;
+}
+
+
+/* ==========================================
+   INFORMAÇÕES DA PÁGINA DE PRODUTO
+   ========================================== */
+
+.produto-informacoes {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+
+.produto-informacoes h1 {
+    margin: 0 0 25px;
+
+    color: #5A321F;
+
+    font-size: 42px;
+
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   PREÇOS DA PÁGINA DE PRODUTO
+   ========================================== */
+
+.produto-informacoes
+.precos {
+    margin-bottom: 30px;
+}
+
+
+.produto-informacoes
+.preco-pix {
+    margin: 0 0 8px;
+
+    color: #5A321F;
+
+    font-size: 24px;
+
+    font-weight: 600;
+}
+
+
+.produto-informacoes
+.preco-cartao {
+    margin: 0;
+
+    color: #754321;
+
+    font-size: 16px;
+}
+
+
+/* ==========================================
+   TAMANHOS
+   ========================================== */
+
+.tamanhos {
+    margin-bottom: 30px;
+}
+
+
+.tamanhos > p {
+    margin: 0 0 12px;
+
+    color: #5A321F;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.tamanhos button {
+    min-width: 50px;
+
+    margin-right: 8px;
+    margin-bottom: 8px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #754321;
+
+    border-radius: 25px;
+
+    background-color: transparent;
+
+    color: #5A321F;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+.tamanhos button:hover,
+.tamanhos button.selecionado {
+    background-color: #5A321F;
+
+    color: #F5EDE3;
+
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   BOTÃO COMPRAR
+   ========================================== */
+
+.botao-comprar {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    max-width: 320px;
+
+    padding: 15px 25px;
+
+    border-radius: 30px;
+
+    background-color: #5A321F;
+
+    color: #F5EDE3;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+
+.botao-comprar:hover {
+    background-color: #754321;
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   VOLTAR
+   ========================================== */
+
+.voltar-colecao {
+    margin-top: 20px;
+
+    color: #754321;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.3s ease;
+}
+
+
+.voltar-colecao:hover {
+    color: #5A321F;
+}
+
+
+/* ==========================================
+   PRODUTO NÃO ENCONTRADO
+   ========================================== */
+
+.produto-nao-encontrado {
+    text-align: center;
+
+    padding: 100px 20px;
+}
+
+
+.produto-nao-encontrado h1 {
+    margin-bottom: 15px;
+}
+
+
+.produto-nao-encontrado p {
+    margin-bottom: 25px;
+
+    color: #754321;
+}
+
+
+.produto-nao-encontrado a {
+    color: #5A321F;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   SOBRE
+   ========================================== */
+
+.secao-sobre {
+    padding: 100px 40px;
+
+    background-color: #F5EDE3;
+}
+
+
+.sobre-conteudo {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+.sobre-subtitulo {
+    margin: 0 0 12px;
+
+    color: #754321;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+}
+
+
+.sobre-conteudo h2 {
+    margin: 0 0 35px;
+
+    color: #5A321F;
+
+    font-size: 40px;
+
+    font-weight: 500;
+}
+
+
+.sobre-conteudo
+p:not(.sobre-subtitulo) {
+    margin: 0 auto 20px;
+
+    max-width: 750px;
+
+    color: #5A321F;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+.sobre-conteudo
+p:last-child {
+    margin-top: 30px;
+
+    color: #754321;
+
+    font-size: 19px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   CONTATO
+   ========================================== */
+
+.secao-contato {
+    padding: 100px 40px;
+
+    background-color: #5A321F;
+
+    text-align: center;
+}
+
+
+.contato-conteudo {
+    max-width: 700px;
+
+    margin: 0 auto;
+}
+
+
+.contato-subtitulo {
+    margin: 0 0 12px;
+
+    color: #D9C5B3;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+}
+
+
+.contato-conteudo h2 {
+    margin: 0 0 25px;
+
+    color: #F5EDE3;
+
+    font-size: 40px;
+
+    font-weight: 500;
+}
+
+
+.contato-conteudo
+p:not(.contato-subtitulo) {
+    margin: 0 auto 12px;
+
+    color: #F5EDE3;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+
+.botao-contato {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 25px;
+
+    padding: 15px 30px;
+
+    border-radius: 30px;
+
+    background-color: #F5EDE3;
+
+    color: #5A321F;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+
+.botao-contato:hover {
+    background-color: #754321;
+
+    color: #F5EDE3;
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   RODAPÉ
+   ========================================== */
+
+.rodape {
+    padding: 60px 40px 25px;
+
+    background-color: #F5EDE3;
+
+    border-top:
+        1px solid
+        rgba(90, 50, 31, 0.15);
+}
+
+
+.rodape-conteudo {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 40px;
+}
+
+
+.rodape-marca {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+
+.rodape-marca img {
+    width: 120px;
+
+    height: auto;
+
+    display: block;
+}
+
+
+.rodape-marca p {
+    margin: 12px 0 0;
+
+    color: #754321;
+
+    font-size: 14px;
+}
+
+
+.rodape-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+}
+
+
+.rodape-links a {
+    color: #5A321F;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.3s ease;
+}
+
+
+.rodape-links a:hover {
+    color: #754321;
+}
+
+
+.rodape-final {
+    max-width: 1100px;
+
+    margin: 40px auto 0;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        rgba(90, 50, 31, 0.15);
+
+    text-align: center;
+}
+
+
+.rodape-final p {
+    color: #754321;
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   MENU MOBILE
+   ========================================== */
+
+.menu-mobile {
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: #5A321F;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    padding: 5px;
+}
+
+
+/* ==========================================
+   TABLET
+   ========================================== */
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 20px 30px;
+    }
+
+
+    #colecao {
+        padding: 70px 30px;
+    }
+
+
+    .produtos {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 30px;
+    }
+
+
+    .produto > .produto-imagem {
+        height: 420px;
+    }
+
+
+    .produto-detalhes {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+
+    .produto-detalhes
+    .produto-imagem {
+        height: 550px;
+    }
+
+
+    .produto-informacoes {
+        align-items: center;
+
+        text-align: center;
+    }
+
+}
+
+
+/* ==========================================
+   CELULAR
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    header {
+        position: relative;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 18px 20px;
+    }
+
+
+    header img {
+        width: 130px;
+    }
+
+
+    .menu-mobile {
+        display: block;
+    }
+
+
+    header nav {
+        display: none;
+
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+
+        width: 100%;
+
+        padding: 20px;
+
+        background-color: #F5EDE3;
+
+        border-top:
+            1px solid
+            rgba(90, 50, 31, 0.15);
+
+        box-shadow:
+            0 10px 20px
+            rgba(90, 50, 31, 0.08);
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 20px;
+
+        z-index: 100;
+    }
+
+
+    header nav.menu-aberto {
+        display: flex;
+    }
+
+
+    header nav a {
+        font-size: 16px;
+    }
+
+
+    #inicio {
+        min-height: 60vh;
+
+        padding: 50px 20px;
+    }
+
+
+    #inicio h1 {
+        font-size: 52px;
+    }
+
+
+    #inicio h1 + p {
+        font-size: 18px;
+    }
+
+
+    #colecao {
+        padding: 60px 20px;
+    }
+
+
+    #colecao h2 {
+        font-size: 30px;
+    }
+
+
+    .filtros-produtos {
+        gap: 8px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .filtro {
+        padding: 9px 17px;
+
+        font-size: 13px;
+    }
+
+
+    .produtos {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+    }
+
+
+    .produto > .produto-imagem {
+        height: 500px;
+    }
+
+
+    .pagina-produto {
+        padding: 50px 20px;
+    }
+
+
+    .produto-detalhes {
+        gap: 35px;
+    }
+
+
+    .produto-detalhes
+    .produto-imagem {
+        height: auto;
+
+        aspect-ratio: 4 / 5;
+    }
+
+
+    .produto-informacoes {
+        text-align: center;
+    }
+
+
+    .produto-informacoes h1 {
+        font-size: 30px;
+    }
+
+
+    .produto-informacoes
+    .preco-pix {
+        font-size: 21px;
+    }
+
+
+    .produto-detalhes
+    .produto-imagem
+    .seta {
+        width: 38px;
+        height: 38px;
+
+        font-size: 18px;
+    }
+
+
+    .produto-detalhes
+    .produto-imagem
+    .seta-esquerda {
+        left: 10px;
+    }
+
+
+    .produto-detalhes
+    .produto-imagem
+    .seta-direita {
+        right: 10px;
+    }
+
+
+    .botao-comprar {
+        width: 100%;
+
+        max-width: 100%;
+    }
+
+
+    .voltar-colecao {
+        display: block;
+
+        margin-top: 25px;
+    }
+
+
+    .secao-sobre {
+        padding: 70px 20px;
+    }
+
+
+    .sobre-conteudo h2 {
+        font-size: 32px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .sobre-conteudo
+    p:not(.sobre-subtitulo) {
+        font-size: 16px;
+
+        line-height: 1.7;
+    }
+
+
+    .secao-contato {
+        padding: 70px 20px;
+    }
+
+
+    .contato-conteudo h2 {
+        font-size: 32px;
+    }
+
+
+    .contato-conteudo
+    p:not(.contato-subtitulo) {
+        font-size: 16px;
+    }
+
+
+    .rodape {
+        padding: 50px 20px 20px;
+    }
+
+
+    .rodape-conteudo {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+
+    .rodape-marca {
+        align-items: center;
+    }
+
+
+    .rodape-links {
+        justify-content: center;
+
+        gap: 18px;
+    }
+
+}
+
+/* ==========================================
+   DISPONIBILIDADE DO TAMANHO
+   Como as peças atualmente são tamanho P,
+   prefiro mostrar uma mensagem para a cliente
+   consultar a disponibilidade.
+   ========================================== */
+
+.disponibilidade-tamanho {
+    margin-bottom: 30px;
+}
+
+
+.disponibilidade-tamanho p {
+    margin: 0 0 6px;
+
+    color: #5A321F;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.disponibilidade-tamanho span {
+    display: block;
+
+    color: #754321;
+
+    font-size: 14px;
+
+    font-style: italic;
+}
+
+/* ==========================================
+   ESTOQUE / PRODUTO ESGOTADO
+   ========================================== */
+
+
+/* Etiqueta que aparece sobre a foto
+   quando todas as cores acabaram */
+
+.produto-esgotado {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    z-index: 5;
+
+    padding: 8px 14px;
+
+    background-color: #5A321F;
+    color: #F5EDE3;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    border-radius: 4px;
+}
+
+
+/* A imagem fica um pouco mais apagada
+   quando o produto inteiro está esgotado */
+
+.produto:has(.produto-esgotado)
+.produto-imagem img {
+    opacity: 0.65;
+}
+
+
+/* ==========================================
+   COR ESGOTADA
+   ========================================== */
+
+.cores button.esgotada {
+    position: relative;
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    text-decoration: line-through;
+}
+
+
+/* ==========================================
+   STATUS NA PÁGINA DO PRODUTO
+   ========================================== */
+
+.status-produto {
+    margin-bottom: 25px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+
+/* Produto disponível */
+
+.status-produto.disponivel {
+    color: #754321;
+}
+
+
+/* Produto ou cor esgotada */
+
+.status-produto.esgotado {
+    color: #8B3A32;
+}
+
+
+/* ==========================================
+   BOTÃO DESATIVADO
+   ========================================== */
+
+.botao-comprar.desativado {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    pointer-events: none;
+}
