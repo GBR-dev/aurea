@@ -1,36 +1,58 @@
 // ==========================================
-// PRODUTO INDIVIDUAL
-// Aqui eu controlo a página de cada produto.
+// PÁGINA DE PRODUTO ÁUREA
+// Eu cuido aqui da galeria, cores, tamanhos,
+// estoque, descrição e compartilhamento.
 // ==========================================
 
 
-const parametros =
-    new URLSearchParams(
-        window.location.search
-    );
+// ==========================================
+// PEGAR O PRODUTO PELA URL
+// ==========================================
+
+const parametrosURL =
+    new URLSearchParams(window.location.search);
+
+const slugProduto =
+    parametrosURL.get("produto");
 
 
-const nomeProduto =
-    parametros.get("produto");
+function encontrarProduto(slug) {
+
+    if (
+        typeof produtos === "undefined" ||
+        !Array.isArray(produtos)
+    ) {
+        return null;
+    }
 
 
-const produto =
-    produtos.find(
-        function (item) {
+    return produtos.find((produto) => {
 
-            return item.nome === nomeProduto;
+        const slugAtual =
+            produto.slug || gerarSlug(produto.nome);
 
-        }
-    );
+        return slugAtual === slug;
+
+    });
+
+}
+
+
+const produtoAtual =
+    encontrarProduto(slugProduto);
 
 
 const containerProduto =
-    document.querySelector(
-        "#produto-detalhes"
+    document.querySelector("#produto-container");
+
+
+if (!containerProduto) {
+
+    console.error(
+        "Container do produto não encontrado."
     );
 
-
-if (!produto) {
+} else if (!produtoAtual) {
 
     containerProduto.innerHTML = `
 
@@ -41,11 +63,13 @@ if (!produto) {
             </h1>
 
             <p>
-                O produto que você procura
-                não está disponível.
+                Não encontramos o produto solicitado.
             </p>
 
-            <a href="index.html#colecao">
+            <a
+                href="colecao.html"
+                class="botao-principal"
+            >
                 Voltar para a coleção
             </a>
 
@@ -53,318 +77,473 @@ if (!produto) {
 
     `;
 
+} else {
+
+    inicializarProduto();
+
 }
 
 
-else {
+// ==========================================
+// INICIALIZAR PRODUTO
+// ==========================================
 
-    // ==========================================
-    // VARIÁVEIS
-    // ==========================================
+function inicializarProduto() {
+
+    const primeiraCor =
+        produtoAtual.cores?.find(corTemEstoque)
+        || produtoAtual.cores?.[0];
+
 
     let corSelecionada =
-        produto.cores.find(
-            function (cor) {
-
-                return cor.disponivel;
-
-            }
-        );
+        primeiraCor;
 
 
-    // Se todas estiverem esgotadas,
-    // usamos a primeira apenas para mostrar
-    // as informações do produto.
-
-    if (!corSelecionada) {
-
-        corSelecionada =
-            produto.cores[0];
-
-    }
+    let tamanhoSelecionado =
+        null;
 
 
-    let indiceImagem = 0;
+    let imagemAtual =
+        0;
 
 
     // ==========================================
-    // VERIFICAR SE TODAS AS CORES ACABARAM
+    // FUNÇÕES DE ESTOQUE
     // ==========================================
 
-    function produtoEsgotado() {
+    function corTemEstoque(cor) {
 
-        for (
-            let i = 0;
-            i < produto.cores.length;
-            i++
+        if (!cor) {
+            return false;
+        }
+
+
+        if (cor.disponivel === false) {
+            return false;
+        }
+
+
+        if (
+            cor.estoque &&
+            typeof cor.estoque === "object"
         ) {
 
-            if (
-                produto.cores[i].disponivel
-            ) {
-
-                return false;
-
-            }
+            return Object.values(cor.estoque).some(
+                quantidade => Number(quantidade) > 0
+            );
 
         }
+
 
         return true;
 
     }
 
 
+    function tamanhoTemEstoque(cor, tamanho) {
+
+        if (!cor) {
+            return false;
+        }
+
+
+        if (!cor.estoque) {
+            return cor.disponivel !== false;
+        }
+
+
+        return Number(
+            cor.estoque[tamanho]
+        ) > 0;
+
+    }
+
+
     // ==========================================
-    // MONTAR A PÁGINA
+    // MONTAR HTML
     // ==========================================
 
     containerProduto.innerHTML = `
 
-        <div class="produto-detalhes">
+        <div class="produto-galeria">
 
-            <div class="produto-galeria">
+            <div class="produto-imagem-grande">
 
-                <div class="produto-imagem">
+                <button
+                    type="button"
+                    class="seta-galeria seta-anterior"
+                    aria-label="Imagem anterior"
+                >
+                    ‹
+                </button>
 
-                    <button
-                        class="seta seta-esquerda"
-                        type="button"
-                        aria-label="Imagem anterior"
-                    >
-                        &#10094;
-                    </button>
+
+                <div class="produto-zoom-container">
 
                     <img
+                        id="imagem-produto"
                         src="${corSelecionada.imagens[0]}"
-                        alt="${produto.nome} - ${corSelecionada.nome}"
+                        alt="${produtoAtual.nome}"
                     >
 
+                </div>
+
+
+                <button
+                    type="button"
+                    class="seta-galeria seta-proxima"
+                    aria-label="Próxima imagem"
+                >
+                    ›
+                </button>
+
+            </div>
+
+
+            <div
+                class="indicadores produto-indicadores"
+                id="indicadores-produto"
+            ></div>
+
+
+            <p class="zoom-legenda">
+                Clique na imagem para ampliar
+            </p>
+
+        </div>
+
+
+        <div class="produto-dados">
+
+            <span class="produto-categoria">
+                ${produtoAtual.categoria}
+            </span>
+
+
+            <h1>
+                ${produtoAtual.nome}
+            </h1>
+
+
+            <div class="produto-precos">
+
+                <strong>
+                    R$ ${produtoAtual.precoPix.toFixed(2).replace(".", ",")}
+                </strong>
+
+                <span>
+                    no Pix
+                </span>
+
+                <small>
+                    R$ ${produtoAtual.precoCartao.toFixed(2).replace(".", ",")}
+                    no cartão
+                </small>
+
+            </div>
+
+
+            <div class="produto-opcao">
+
+                <h3>
+                    Escolha a cor
+                </h3>
+
+                <div
+                    class="cores-produto"
+                    id="cores-produto"
+                ></div>
+
+            </div>
+
+
+            <div class="produto-opcao">
+
+                <h3>
+                    Escolha o tamanho
+                </h3>
+
+                <div
+                    class="tamanhos-produto"
+                    id="tamanhos-produto"
+                ></div>
+
+            </div>
+
+
+            <div
+                class="produto-status"
+                id="produto-status"
+            ></div>
+
+
+            <a
+                id="botao-compra-produto"
+                href="https://www.instagram.com/useaurea.m/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="produto-botao-compra"
+            >
+                Comprar pelo Instagram
+            </a>
+
+
+            <p class="produto-reposicao">
+                Após escolher a cor e o tamanho,
+                fale conosco para confirmar a disponibilidade.
+            </p>
+
+
+            <div class="produto-observacao">
+
+                <strong>
+                    Observação
+                </strong>
+
+                <p>
+                    ${produtoAtual.observacao || ""}
+                </p>
+
+            </div>
+
+
+            <div class="produto-descricao">
+
+                <h2>
+                    Sobre a peça
+                </h2>
+
+                <p>
+                    ${(produtoAtual.descricao || "").replace(
+                        /\n/g,
+                        "<br><br>"
+                    )}
+                </p>
+
+            </div>
+
+
+            <div class="produto-tecnico">
+
+                <h2>
+                    Informações
+                </h2>
+
+                <div class="tecnico-grid">
+
+                    <div>
+
+                        <span>
+                            Tecido
+                        </span>
+
+                        <strong>
+                            ${produtoAtual.tecido || "-"}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Composição
+                        </span>
+
+                        <strong>
+                            ${produtoAtual.composicao || "-"}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            ${
+                produtoAtual.medidas &&
+                Object.keys(produtoAtual.medidas).length > 0
+
+                ? `
+
+                    <div class="produto-medidas">
+
+                        <h2>
+                            Medidas
+                        </h2>
+
+
+                        <div class="tabela-wrapper">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Tamanho
+                                        </th>
+
+                                        <th>
+                                            Peito
+                                        </th>
+
+                                        <th>
+                                            Comprimento
+                                        </th>
+
+                                        <th>
+                                            Cintura
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${produtoAtual.tamanhos.map((tamanho) => {
+
+                                        const medida =
+                                            produtoAtual.medidas[tamanho];
+
+
+                                        if (
+                                            !medida ||
+                                            typeof medida !== "object"
+                                        ) {
+                                            return "";
+                                        }
+
+
+                                        return `
+
+                                            <tr>
+
+                                                <td>
+                                                    ${tamanho}
+                                                </td>
+
+                                                <td>
+                                                    ${medida.peito} cm
+                                                </td>
+
+                                                <td>
+                                                    ${medida.comprimento} cm
+                                                </td>
+
+                                                <td>
+                                                    ${medida.cintura} cm
+                                                </td>
+
+                                            </tr>
+
+                                        `;
+
+                                    }).join("")}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        ${
+                            produtoAtual.observacaoMedidas
+
+                            ? `
+
+                                <p class="medidas-observacao">
+                                    ${produtoAtual.observacaoMedidas}
+                                </p>
+
+                            `
+
+                            : ""
+                        }
+
+                    </div>
+
+                `
+
+                : ""
+            }
+
+
+            <div class="produto-compartilhar">
+
+                <h3>
+                    Compartilhe este produto
+                </h3>
+
+                <div>
+
                     <button
-                        class="seta seta-direita"
                         type="button"
-                        aria-label="Próxima imagem"
+                        id="compartilhar-whatsapp"
                     >
-                        &#10095;
+                        WhatsApp
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="copiar-link"
+                    >
+                        Copiar link
                     </button>
 
                 </div>
 
-                <div class="indicadores"></div>
-
             </div>
 
 
-            <div class="produto-informacoes">
-
-                <h1>
-                    ${produto.nome}
-                </h1>
-
-
-                <div class="precos">
-
-                    <p class="preco-pix">
-                        R$
-                        ${produto.precoPix
-                            .toFixed(2)
-                            .replace(".", ",")}
-                        no Pix
-                    </p>
-
-                    <p class="preco-cartao">
-                        R$
-                        ${produto.precoCartao
-                            .toFixed(2)
-                            .replace(".", ",")}
-                        no cartão
-                    </p>
-
-                </div>
-
-
-                <div class="cores">
-
-                    <p>
-                        Cor:
-                    </p>
-
-                </div>
-
-
-                <div class="disponibilidade-tamanho">
-
-                    <p>
-                        Tamanho
-                    </p>
-
-                    <span>
-                        Consulte a disponibilidade
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="status-produto"
-                    id="status-produto"
-                ></div>
-
-
-                <a
-                    href="https://www.instagram.com/useaurea.m/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="botao-instagram botao-comprar"
-                    id="botao-comprar"
-                >
-                    Comprar pelo Instagram
-                </a>
-
-
-                <a
-                    href="index.html#colecao"
-                    class="voltar-colecao"
-                >
-                    ← Voltar para a coleção
-                </a>
-
-            </div>
+            <a
+                href="colecao.html"
+                class="voltar-colecao"
+            >
+                ← Voltar para a coleção
+            </a>
 
         </div>
 
     `;
 
 
-    // ==========================================
-    // PEGAR ELEMENTOS
-    // ==========================================
-
     const imagemProduto =
-        containerProduto.querySelector(
-            ".produto-imagem img"
-        );
+        document.querySelector("#imagem-produto");
 
 
-    const setaEsquerda =
-        containerProduto.querySelector(
-            ".seta-esquerda"
-        );
+    const indicadores =
+        document.querySelector("#indicadores-produto");
 
 
-    const setaDireita =
-        containerProduto.querySelector(
-            ".seta-direita"
-        );
+    const coresContainer =
+        document.querySelector("#cores-produto");
 
 
-    const containerIndicadores =
-        containerProduto.querySelector(
-            ".indicadores"
-        );
-
-
-    const containerCores =
-        containerProduto.querySelector(
-            ".cores"
-        );
-
-
-    const botaoComprar =
-        containerProduto.querySelector(
-            "#botao-comprar"
-        );
+    const tamanhosContainer =
+        document.querySelector("#tamanhos-produto");
 
 
     const statusProduto =
-        containerProduto.querySelector(
-            "#status-produto"
-        );
+        document.querySelector("#produto-status");
 
 
-    // ==========================================
-    // ATUALIZAR STATUS
-    // ==========================================
-
-    function atualizarStatus() {
-
-        statusProduto.classList.remove(
-            "disponivel",
-            "esgotado"
-        );
+    const botaoCompra =
+        document.querySelector("#botao-compra-produto");
 
 
-        if (
-            produtoEsgotado()
-        ) {
-
-            statusProduto.textContent =
-                "ESGOTADO";
-
-            statusProduto.classList.add(
-                "esgotado"
-            );
+    const setaAnterior =
+        document.querySelector(".seta-anterior");
 
 
-            botaoComprar.classList.add(
-                "desativado"
-            );
-
-
-            botaoComprar.removeAttribute(
-                "href"
-            );
-
-
-            return;
-
-        }
-
-
-        if (
-            !corSelecionada.disponivel
-        ) {
-
-            statusProduto.textContent =
-                "ESTA COR ESTÁ ESGOTADA";
-
-            statusProduto.classList.add(
-                "esgotado"
-            );
-
-
-            botaoComprar.classList.add(
-                "desativado"
-            );
-
-
-            botaoComprar.removeAttribute(
-                "href"
-            );
-
-
-            return;
-
-        }
-
-
-        statusProduto.textContent =
-            "DISPONÍVEL";
-
-
-        statusProduto.classList.add(
-            "disponivel"
-        );
-
-
-        botaoComprar.classList.remove(
-            "desativado"
-        );
-
-
-        botaoComprar.href =
-            "https://www.instagram.com/useaurea.m/";
-
-    }
+    const setaProxima =
+        document.querySelector(".seta-proxima");
 
 
     // ==========================================
@@ -373,14 +552,25 @@ else {
 
     function atualizarImagem() {
 
+        if (!corSelecionada?.imagens?.length) {
+            return;
+        }
+
+
+        if (
+            imagemAtual >=
+            corSelecionada.imagens.length
+        ) {
+            imagemAtual = 0;
+        }
+
+
         imagemProduto.src =
-            corSelecionada.imagens[
-                indiceImagem
-            ];
+            corSelecionada.imagens[imagemAtual];
 
 
         imagemProduto.alt =
-            `${produto.nome} - ${corSelecionada.nome}`;
+            `${produtoAtual.nome} - ${corSelecionada.nome}`;
 
 
         atualizarIndicadores();
@@ -394,258 +584,466 @@ else {
 
     function atualizarIndicadores() {
 
-        containerIndicadores.innerHTML =
-            "";
+        indicadores.innerHTML =
+            corSelecionada.imagens.map(
+                (imagem, indice) => `
+
+                    <button
+                        type="button"
+                        class="${
+                            indice === imagemAtual
+                                ? "ativo"
+                                : ""
+                        }"
+                        data-imagem="${indice}"
+                        aria-label="Ver imagem ${indice + 1}"
+                    ></button>
+
+                `
+            ).join("");
 
 
-        for (
-            let i = 0;
-            i < corSelecionada.imagens.length;
-            i++
-        ) {
+        indicadores
+            .querySelectorAll("button")
+            .forEach((botao) => {
 
-            const indicador =
-                document.createElement(
-                    "button"
+                botao.addEventListener(
+                    "click",
+                    () => {
+
+                        imagemAtual =
+                            Number(
+                                botao.dataset.imagem
+                            );
+
+                        atualizarImagem();
+
+                    }
                 );
 
-
-            indicador.type =
-                "button";
-
-
-            indicador.classList.add(
-                "indicador"
-            );
-
-
-            if (
-                i === indiceImagem
-            ) {
-
-                indicador.classList.add(
-                    "ativo"
-                );
-
-            }
-
-
-            indicador.setAttribute(
-                "aria-label",
-                `Ver imagem ${i + 1}`
-            );
-
-
-            indicador.addEventListener(
-                "click",
-                function () {
-
-                    indiceImagem = i;
-
-                    atualizarImagem();
-
-                }
-            );
-
-
-            containerIndicadores.appendChild(
-                indicador
-            );
-
-        }
+            });
 
     }
-
-
-    // ==========================================
-    // SETA DIREITA
-    // ==========================================
-
-    setaDireita.addEventListener(
-        "click",
-        function () {
-
-            indiceImagem++;
-
-
-            if (
-                indiceImagem >=
-                corSelecionada.imagens.length
-            ) {
-
-                indiceImagem = 0;
-
-            }
-
-
-            atualizarImagem();
-
-        }
-    );
-
-
-    // ==========================================
-    // SETA ESQUERDA
-    // ==========================================
-
-    setaEsquerda.addEventListener(
-        "click",
-        function () {
-
-            indiceImagem--;
-
-
-            if (
-                indiceImagem < 0
-            ) {
-
-                indiceImagem =
-                    corSelecionada.imagens.length - 1;
-
-            }
-
-
-            atualizarImagem();
-
-        }
-    );
 
 
     // ==========================================
     // CORES
     // ==========================================
 
-    for (
-        let i = 0;
-        i < produto.cores.length;
-        i++
-    ) {
+    function atualizarCores() {
 
-        const cor =
-            produto.cores[i];
+        coresContainer.innerHTML =
+            produtoAtual.cores.map(
+                (cor) => {
 
-
-        const botaoCor =
-            document.createElement(
-                "button"
-            );
+                    const disponivel =
+                        corTemEstoque(cor);
 
 
-        botaoCor.type =
-            "button";
+                    return `
 
+                        <button
+                            type="button"
+                            class="
+                                produto-cor
+                                ${
+                                    cor.nome ===
+                                    corSelecionada.nome
+                                        ? "ativo"
+                                        : ""
+                                }
+                                ${
+                                    !disponivel
+                                        ? "indisponivel"
+                                        : ""
+                                }
+                            "
+                            data-cor="${cor.nome}"
+                            ${!disponivel ? "disabled" : ""}
+                        >
 
-        botaoCor.textContent =
-            cor.nome;
+                            ${cor.nome}
 
+                        </button>
 
-        // ==========================================
-        // COR ESGOTADA
-        // ==========================================
-
-        if (
-            !cor.disponivel
-        ) {
-
-            botaoCor.classList.add(
-                "esgotada"
-            );
-
-
-            botaoCor.disabled =
-                true;
-
-        }
-
-
-        // ==========================================
-        // COR SELECIONADA
-        // ==========================================
-
-        if (
-            cor === corSelecionada &&
-            cor.disponivel
-        ) {
-
-            botaoCor.classList.add(
-                "selecionada"
-            );
-
-        }
-
-
-        // ==========================================
-        // TROCAR COR
-        // ==========================================
-
-        botaoCor.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    !cor.disponivel
-                ) {
-
-                    return;
+                    `;
 
                 }
+            ).join("");
 
 
-                corSelecionada =
-                    cor;
+        coresContainer
+            .querySelectorAll(".produto-cor")
+            .forEach((botao) => {
+
+                botao.addEventListener(
+                    "click",
+                    () => {
+
+                        const novaCor =
+                            produtoAtual.cores.find(
+                                cor =>
+                                    cor.nome ===
+                                    botao.dataset.cor
+                            );
 
 
-                indiceImagem =
-                    0;
+                        if (!novaCor) {
+                            return;
+                        }
 
 
-                const botoes =
-                    containerCores.querySelectorAll(
-                        "button"
-                    );
+                        corSelecionada =
+                            novaCor;
 
 
-                for (
-                    let j = 0;
-                    j < botoes.length;
-                    j++
-                ) {
-
-                    botoes[j]
-                        .classList
-                        .remove(
-                            "selecionada"
-                        );
-
-                }
+                        tamanhoSelecionado =
+                            null;
 
 
-                botaoCor.classList.add(
-                    "selecionada"
+                        imagemAtual = 0;
+
+
+                        atualizarImagem();
+
+                        atualizarCores();
+
+                        atualizarTamanhos();
+
+                        atualizarStatus();
+
+                    }
                 );
 
-
-                atualizarImagem();
-
-                atualizarStatus();
-
-            }
-        );
-
-
-        containerCores.appendChild(
-            botaoCor
-        );
+            });
 
     }
 
 
     // ==========================================
-    // INICIAR
+    // TAMANHOS
     // ==========================================
 
-    atualizarIndicadores();
+    function atualizarTamanhos() {
+
+        tamanhosContainer.innerHTML =
+            produtoAtual.tamanhos.map(
+                (tamanho) => {
+
+                    const disponivel =
+                        tamanhoTemEstoque(
+                            corSelecionada,
+                            tamanho
+                        );
+
+
+                    return `
+
+                        <button
+                            type="button"
+                            class="
+                                tamanho-produto
+                                ${
+                                    tamanho ===
+                                    tamanhoSelecionado
+                                        ? "ativo"
+                                        : ""
+                                }
+                                ${
+                                    !disponivel
+                                        ? "indisponivel"
+                                        : ""
+                                }
+                            "
+                            data-tamanho="${tamanho}"
+                            ${!disponivel ? "disabled" : ""}
+                        >
+
+                            ${tamanho}
+
+                        </button>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        tamanhosContainer
+            .querySelectorAll(".tamanho-produto")
+            .forEach((botao) => {
+
+                botao.addEventListener(
+                    "click",
+                    () => {
+
+                // Eu salvo o tamanho escolhido pela cliente.
+                tamanhoSelecionado =
+                    botao.dataset.tamanho;
+
+                atualizarTamanhos();
+
+                atualizarStatus();
+
+                atualizarBotaoCompra();
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    // ==========================================
+    // STATUS DO PRODUTO
+    // ==========================================
+
+    function atualizarStatus() {
+
+        if (!corSelecionada) {
+
+            statusProduto.textContent =
+                "Escolha uma cor.";
+
+            return;
+        }
+
+
+        if (!corTemEstoque(corSelecionada)) {
+
+            statusProduto.textContent =
+                "Esta cor está esgotada.";
+
+            return;
+
+        }
+
+
+        if (!tamanhoSelecionado) {
+
+            statusProduto.textContent =
+                `Cor selecionada: ${corSelecionada.nome}. Escolha um tamanho.`;
+
+            return;
+
+        }
+
+
+        if (
+            !tamanhoTemEstoque(
+                corSelecionada,
+                tamanhoSelecionado
+            )
+        ) {
+
+            statusProduto.textContent =
+                "Este tamanho está esgotado.";
+
+            return;
+
+        }
+
+
+        statusProduto.textContent =
+            `Última unidade disponível: ${corSelecionada.nome} — tamanho ${tamanhoSelecionado}.`;
+
+    }
+
+
+    // ==========================================
+    // BOTÃO DE COMPRA
+    // ==========================================
+
+    function atualizarBotaoCompra() {
+
+        if (
+            !corSelecionada ||
+            !tamanhoSelecionado ||
+            !tamanhoTemEstoque(
+                corSelecionada,
+                tamanhoSelecionado
+            )
+        ) {
+
+            botaoCompra.classList.add("desativado");
+
+            botaoCompra.textContent =
+                "Escolha cor e tamanho";
+
+            botaoCompra.href =
+                "#";
+
+            return;
+
+        }
+
+
+        botaoCompra.classList.remove("desativado");
+
+        botaoCompra.textContent =
+            "Comprar pelo Instagram";
+
+
+        botaoCompra.href =
+            "https://www.instagram.com/useaurea.m/";
+
+    }
+
+
+    // ==========================================
+    // GALERIA
+    // ==========================================
+
+    setaAnterior.addEventListener(
+        "click",
+        () => {
+
+            imagemAtual--;
+
+            if (imagemAtual < 0) {
+
+                imagemAtual =
+                    corSelecionada.imagens.length - 1;
+
+            }
+
+            atualizarImagem();
+
+        }
+    );
+
+
+    setaProxima.addEventListener(
+        "click",
+        () => {
+
+            imagemAtual++;
+
+            if (
+                imagemAtual >=
+                corSelecionada.imagens.length
+            ) {
+
+                imagemAtual = 0;
+
+            }
+
+            atualizarImagem();
+
+        }
+    );
+
+
+// ==========================================
+// ZOOM
+// Eu faço o zoom pela área inteira da foto,
+// mantendo a imagem centralizada.
+// ==========================================
+
+const containerZoom =
+    document.querySelector(".produto-zoom-container");
+
+
+containerZoom.addEventListener(
+    "click",
+    () => {
+
+        imagemProduto.classList.toggle(
+            "zoom-ativo"
+        );
+
+    }
+);
+
+
+    // ==========================================
+    // COMPARTILHAR NO WHATSAPP
+    // ==========================================
+
+    const compartilharWhatsApp =
+        document.querySelector(
+            "#compartilhar-whatsapp"
+        );
+
+
+    compartilharWhatsApp.addEventListener(
+        "click",
+        () => {
+
+            const mensagem =
+                `Olá! Gostaria de saber mais sobre o produto ${produtoAtual.nome}.`;
+
+
+            const url =
+                `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+
+
+            window.open(
+                url,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
+    );
+
+
+    // ==========================================
+    // COPIAR LINK
+    // ==========================================
+
+    const copiarLink =
+        document.querySelector("#copiar-link");
+
+
+    copiarLink.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    window.location.href
+                );
+
+
+                copiarLink.textContent =
+                    "Link copiado!";
+
+
+                setTimeout(() => {
+
+                    copiarLink.textContent =
+                        "Copiar link";
+
+                }, 2000);
+
+            } catch (erro) {
+
+                console.error(
+                    "Não foi possível copiar o link.",
+                    erro
+                );
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // PRIMEIRA EXIBIÇÃO
+    // ==========================================
+
+    atualizarImagem();
+
+    atualizarCores();
+
+    atualizarTamanhos();
 
     atualizarStatus();
+
+    atualizarBotaoCompra();
 
 }

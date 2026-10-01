@@ -5,14 +5,14 @@
 
     <meta charset="UTF-8">
 
-    <!-- Eu deixo a página adaptada para celular, tablet e computador. -->
+    <!-- Eu deixo a coleção adaptada para celular, tablet e computador. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Produto | Áurea</title>
+    <title>Coleção | Áurea</title>
 
     <meta
         name="description"
-        content="Conheça os detalhes dos produtos Áurea."
+        content="Conheça a coleção Áurea."
     >
 
     <link rel="stylesheet" href="css/style.css">
@@ -22,7 +22,6 @@
 
 <body>
 
-    <!-- Eu mantenho o mesmo cabeçalho das outras páginas. -->
     <header class="header">
 
         <div class="header-container">
@@ -58,7 +57,7 @@
                     Início
                 </a>
 
-                <a href="colecao.html">
+                <a href="colecao.html" class="ativo">
                     Coleção
                 </a>
 
@@ -77,21 +76,58 @@
     </header>
 
 
-    <main>
+    <main class="pagina-colecao">
 
-        <!-- Eu deixo o JavaScript montar todos os detalhes do produto aqui. -->
-        <section
-            class="pagina-produto"
-            id="produto-container"
-        >
+        <section class="cabecalho-pagina">
 
-            <div class="produto-carregando">
+            <span>
+                ÁUREA
+            </span>
 
-                <p>
-                    Carregando produto...
-                </p>
+            <h1>
+                Nossa coleção
+            </h1>
+
+            <p>
+                Escolha sua peça favorita e conheça todos os detalhes.
+            </p>
+
+        </section>
+
+
+        <section class="catalogo">
+
+            <div class="filtros">
+
+                <button
+                    type="button"
+                    class="filtro ativo"
+                    data-categoria="Todos"
+                >
+                    Todos
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-categoria="Blusas"
+                >
+                    Blusas
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-categoria="Calças"
+                >
+                    Calças
+                </button>
 
             </div>
+
+
+            <!-- Eu deixo o JavaScript montar todos os produtos neste espaço. -->
+            <div class="produtos"></div>
 
         </section>
 
@@ -136,23 +172,6 @@
 
             </div>
 
-
-            <div class="footer-social">
-
-                <a
-                    href="https://www.instagram.com/useaurea.m/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Instagram
-                </a>
-
-                <a href="contato.html">
-                    WhatsApp
-                </a>
-
-            </div>
-
         </div>
 
 
@@ -167,14 +186,11 @@
     </footer>
 
 
-    <!-- Eu carrego os produtos antes do JavaScript da página. -->
+    <!-- Eu carrego os produtos uma única vez. -->
     <script src="js/produtos.js"></script>
 
-    <!-- Eu carrego as funções gerais do site. -->
+    <!-- Depois eu carrego o código que monta os cards. -->
     <script src="js/script.js"></script>
-
-    <!-- Eu carrego somente aqui o código específico do produto. -->
-    <script src="js/produto.js"></script>
 
 </body>
 

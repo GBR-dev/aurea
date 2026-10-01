@@ -1,720 +1,341 @@
 // ==========================================
-// SITE ÁUREA
-// Aqui eu controlo os produtos da página inicial,
-// filtros, imagens, cores, estoque e menu mobile.
+// SCRIPT PRINCIPAL DA ÁUREA
+// Eu cuido aqui das interações gerais,
+// filtros, cards e menu do site.
 // ==========================================
 
 
-const containerProdutos =
-    document.querySelector(".produtos");
-
-let categoriaSelecionada = "Todos";
-
-
 // ==========================================
-// VERIFICAR SE O PRODUTO ESTÁ ESGOTADO
+// MENU MOBILE
 // ==========================================
 
-function produtoEsgotado(produto) {
+const menuMobile = document.querySelector(".menu-mobile");
+const nav = document.querySelector(".nav");
 
-    for (
-        let i = 0;
-        i < produto.cores.length;
-        i++
-    ) {
+if (menuMobile && nav) {
 
-        if (
-            produto.cores[i].disponivel
-        ) {
+    menuMobile.addEventListener("click", () => {
 
-            return false;
+        const menuAberto = nav.classList.toggle("menu-aberto");
 
-        }
+        menuMobile.setAttribute(
+            "aria-expanded",
+            menuAberto
+        );
 
-    }
+    });
 
-    return true;
+
+    // Eu fecho o menu depois que a pessoa escolhe uma página.
+    nav.querySelectorAll("a").forEach((link) => {
+
+        link.addEventListener("click", () => {
+
+            nav.classList.remove("menu-aberto");
+
+            menuMobile.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        });
+
+    });
 
 }
 
 
 // ==========================================
-// CRIAR PRODUTOS
+// FUNÇÃO PARA GERAR SLUG
 // ==========================================
 
-function criarProdutos() {
+function gerarSlug(texto) {
 
-    containerProdutos.innerHTML = "";
+    return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
-
-    let produtosFiltrados =
-        produtos.filter(function (produto) {
-
-            if (
-                categoriaSelecionada === "Todos"
-            ) {
-
-                return true;
-
-            }
-
-            return (
-                produto.categoria ===
-                categoriaSelecionada
-            );
-
-        });
+}
 
 
-    for (
-        let i = 0;
-        i < produtosFiltrados.length;
-        i++
+// ==========================================
+// VERIFICAÇÃO DE ESTOQUE
+// ==========================================
+
+function corTemEstoque(cor) {
+
+    if (!cor) {
+        return false;
+    }
+
+
+    if (cor.disponivel === false) {
+        return false;
+    }
+
+
+    if (
+        cor.estoque &&
+        typeof cor.estoque === "object"
     ) {
 
-        const produto =
-            produtosFiltrados[i];
-
-
-        const artigo =
-            document.createElement("article");
-
-        artigo.classList.add(
-            "produto"
+        return Object.values(cor.estoque).some(
+            quantidade => Number(quantidade) > 0
         );
-
-
-        // ==========================================
-        // VERIFICAR ESTOQUE
-        // ==========================================
-
-        const estaEsgotado =
-            produtoEsgotado(produto);
-
-
-        // ==========================================
-        // IMAGEM
-        // ==========================================
-
-        const containerImagem =
-            document.createElement("div");
-
-        containerImagem.classList.add(
-            "produto-imagem"
-        );
-
-
-        let corSelecionada =
-            produto.cores.find(
-                function (cor) {
-
-                    return cor.disponivel;
-
-                }
-            );
-
-
-        // Se todas as cores estiverem esgotadas,
-        // usamos a primeira apenas para mostrar
-        // a imagem do produto.
-
-        if (!corSelecionada) {
-
-            corSelecionada =
-                produto.cores[0];
-
-        }
-
-
-        let indiceImagem = 0;
-
-
-        const imagem =
-            document.createElement("img");
-
-
-        imagem.src =
-            corSelecionada.imagens[
-                indiceImagem
-            ];
-
-
-        imagem.alt =
-            `${produto.nome} - ${corSelecionada.nome}`;
-
-
-        // ==========================================
-        // ETIQUETA DE ESGOTADO
-        // ==========================================
-
-        if (estaEsgotado) {
-
-            const etiqueta =
-                document.createElement("span");
-
-            etiqueta.classList.add(
-                "produto-esgotado"
-            );
-
-            etiqueta.textContent =
-                "ESGOTADO";
-
-            containerImagem.appendChild(
-                etiqueta
-            );
-
-        }
-
-
-        // ==========================================
-        // SETA ESQUERDA
-        // ==========================================
-
-        const setaEsquerda =
-            document.createElement("button");
-
-        setaEsquerda.type =
-            "button";
-
-        setaEsquerda.classList.add(
-            "seta",
-            "seta-esquerda"
-        );
-
-        setaEsquerda.innerHTML =
-            "&#10094;";
-
-        setaEsquerda.setAttribute(
-            "aria-label",
-            "Imagem anterior"
-        );
-
-
-        // ==========================================
-        // SETA DIREITA
-        // ==========================================
-
-        const setaDireita =
-            document.createElement("button");
-
-        setaDireita.type =
-            "button";
-
-        setaDireita.classList.add(
-            "seta",
-            "seta-direita"
-        );
-
-        setaDireita.innerHTML =
-            "&#10095;";
-
-        setaDireita.setAttribute(
-            "aria-label",
-            "Próxima imagem"
-        );
-
-
-        containerImagem.appendChild(
-            setaEsquerda
-        );
-
-        containerImagem.appendChild(
-            imagem
-        );
-
-        containerImagem.appendChild(
-            setaDireita
-        );
-
-
-        // ==========================================
-        // INDICADORES
-        // ==========================================
-
-        const indicadores =
-            document.createElement("div");
-
-        indicadores.classList.add(
-            "indicadores"
-        );
-
-
-        function atualizarIndicadores() {
-
-            indicadores.innerHTML = "";
-
-
-            for (
-                let j = 0;
-                j < corSelecionada.imagens.length;
-                j++
-            ) {
-
-                const indicador =
-                    document.createElement("button");
-
-
-                indicador.type =
-                    "button";
-
-
-                indicador.classList.add(
-                    "indicador"
-                );
-
-
-                if (
-                    j === indiceImagem
-                ) {
-
-                    indicador.classList.add(
-                        "ativo"
-                    );
-
-                }
-
-
-                indicador.setAttribute(
-                    "aria-label",
-                    `Ver imagem ${j + 1}`
-                );
-
-
-                indicador.addEventListener(
-                    "click",
-                    function () {
-
-                        indiceImagem = j;
-
-                        atualizarImagem();
-
-                    }
-                );
-
-
-                indicadores.appendChild(
-                    indicador
-                );
-
-            }
-
-        }
-
-
-        // ==========================================
-        // ATUALIZAR IMAGEM
-        // ==========================================
-
-        function atualizarImagem() {
-
-            imagem.src =
-                corSelecionada.imagens[
-                    indiceImagem
-                ];
-
-
-            imagem.alt =
-                `${produto.nome} - ${corSelecionada.nome}`;
-
-
-            atualizarIndicadores();
-
-        }
-
-
-        // ==========================================
-        // SETA DIREITA
-        // ==========================================
-
-        setaDireita.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-
-                indiceImagem++;
-
-
-                if (
-                    indiceImagem >=
-                    corSelecionada.imagens.length
-                ) {
-
-                    indiceImagem = 0;
-
-                }
-
-
-                atualizarImagem();
-
-            }
-        );
-
-
-        // ==========================================
-        // SETA ESQUERDA
-        // ==========================================
-
-        setaEsquerda.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-
-                indiceImagem--;
-
-
-                if (
-                    indiceImagem < 0
-                ) {
-
-                    indiceImagem =
-                        corSelecionada.imagens.length - 1;
-
-                }
-
-
-                atualizarImagem();
-
-            }
-        );
-
-
-        // ==========================================
-        // ABRIR PRODUTO
-        // ==========================================
-
-        containerImagem.style.cursor =
-            "pointer";
-
-
-        containerImagem.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target.classList.contains(
-                        "seta"
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                window.location.href =
-                    `produto.html?produto=${encodeURIComponent(
-                        produto.nome
-                    )}`;
-
-            }
-        );
-
-
-        // ==========================================
-        // INFORMAÇÕES
-        // ==========================================
-
-        const informacoes =
-            document.createElement("div");
-
-
-        informacoes.classList.add(
-            "produto-informacoes"
-        );
-
-
-        // ==========================================
-        // NOME
-        // ==========================================
-
-        const nome =
-            document.createElement("h3");
-
-
-        nome.textContent =
-            produto.nome;
-
-
-        nome.style.cursor =
-            "pointer";
-
-
-        nome.addEventListener(
-            "click",
-            function () {
-
-                window.location.href =
-                    `produto.html?produto=${encodeURIComponent(
-                        produto.nome
-                    )}`;
-
-            }
-        );
-
-
-        // ==========================================
-        // PREÇOS
-        // ==========================================
-
-        const precos =
-            document.createElement("div");
-
-
-        precos.classList.add(
-            "precos"
-        );
-
-
-        const precoPix =
-            document.createElement("p");
-
-
-        precoPix.classList.add(
-            "preco-pix"
-        );
-
-
-        precoPix.textContent =
-            `R$ ${produto.precoPix
-                .toFixed(2)
-                .replace(".", ",")} no Pix`;
-
-
-        const precoCartao =
-            document.createElement("p");
-
-
-        precoCartao.classList.add(
-            "preco-cartao"
-        );
-
-
-        precoCartao.textContent =
-            `R$ ${produto.precoCartao
-                .toFixed(2)
-                .replace(".", ",")} no cartão`;
-
-
-        precos.appendChild(
-            precoPix
-        );
-
-        precos.appendChild(
-            precoCartao
-        );
-
-
-        // ==========================================
-        // CORES
-        // ==========================================
-
-        const cores =
-            document.createElement("div");
-
-
-        cores.classList.add(
-            "cores"
-        );
-
-
-        const textoCor =
-            document.createElement("p");
-
-
-        textoCor.textContent =
-            "Cor:";
-
-
-        cores.appendChild(
-            textoCor
-        );
-
-
-        for (
-            let j = 0;
-            j < produto.cores.length;
-            j++
-        ) {
-
-            const cor =
-                produto.cores[j];
-
-
-            const botaoCor =
-                document.createElement("button");
-
-
-            botaoCor.type =
-                "button";
-
-
-            botaoCor.textContent =
-                cor.nome;
-
-
-            // Cor esgotada
-            if (
-                !cor.disponivel
-            ) {
-
-                botaoCor.classList.add(
-                    "esgotada"
-                );
-
-                botaoCor.disabled =
-                    true;
-
-            }
-
-
-            // Primeira cor disponível
-            if (
-                cor === corSelecionada &&
-                cor.disponivel
-            ) {
-
-                botaoCor.classList.add(
-                    "selecionada"
-                );
-
-            }
-
-
-            botaoCor.addEventListener(
-                "click",
-                function () {
-
-                    if (
-                        !cor.disponivel
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    corSelecionada =
-                        cor;
-
-
-                    indiceImagem =
-                        0;
-
-
-                    const botoesCor =
-                        cores.querySelectorAll(
-                            "button"
-                        );
-
-
-                    for (
-                        let k = 0;
-                        k < botoesCor.length;
-                        k++
-                    ) {
-
-                        botoesCor[k]
-                            .classList
-                            .remove(
-                                "selecionada"
-                            );
-
-                    }
-
-
-                    botaoCor.classList.add(
-                        "selecionada"
-                    );
-
-
-                    atualizarImagem();
-
-                }
-            );
-
-
-            cores.appendChild(
-                botaoCor
-            );
-
-        }
-
-
-        // ==========================================
-        // BOTÃO VER PRODUTO
-        // ==========================================
-
-        const linkProduto =
-            document.createElement("a");
-
-
-        linkProduto.href =
-            `produto.html?produto=${encodeURIComponent(
-                produto.nome
-            )}`;
-
-
-        linkProduto.classList.add(
-            "botao-instagram"
-        );
-
-
-        linkProduto.textContent =
-            "Ver produto";
-
-
-        linkProduto.setAttribute(
-            "aria-label",
-            `Ver detalhes de ${produto.nome}`
-        );
-
-
-        // ==========================================
-        // MONTAR PRODUTO
-        // ==========================================
-
-        informacoes.appendChild(
-            nome
-        );
-
-        informacoes.appendChild(
-            precos
-        );
-
-        informacoes.appendChild(
-            cores
-        );
-
-        informacoes.appendChild(
-            linkProduto
-        );
-
-
-        artigo.appendChild(
-            containerImagem
-        );
-
-        artigo.appendChild(
-            indicadores
-        );
-
-        artigo.appendChild(
-            informacoes
-        );
-
-
-        containerProdutos.appendChild(
-            artigo
-        );
-
-
-        atualizarIndicadores();
 
     }
+
+
+    return cor.disponivel !== false;
+
+}
+
+
+// ==========================================
+// VERIFICAÇÃO DO PRODUTO
+// ==========================================
+
+function produtoTemEstoque(produto) {
+
+    if (!produto || !Array.isArray(produto.cores)) {
+        return false;
+    }
+
+    return produto.cores.some(corTemEstoque);
+
+}
+
+
+// ==========================================
+// CRIAÇÃO DO CARD
+// Eu monto cada card de produto e direciono
+// a cliente para a página individual da peça.
+// ==========================================
+
+function criarCardProduto(produto) {
+
+    if (!produto) {
+        return "";
+    }
+
+
+    // Eu encontro a primeira cor que ainda possui estoque.
+    const primeiraCorDisponivel =
+        produto.cores?.find(corTemEstoque)
+        || produto.cores?.[0];
+
+
+    if (!primeiraCorDisponivel) {
+        return "";
+    }
+
+
+    // Eu pego a primeira imagem dessa cor para mostrar no card.
+    const primeiraImagem =
+        primeiraCorDisponivel.imagens?.[0];
+
+
+    if (!primeiraImagem) {
+        return "";
+    }
+
+
+    // Eu uso o slug cadastrado e, caso ele não exista,
+    // eu gero um automaticamente a partir do nome.
+    const slug =
+        produto.slug || gerarSlug(produto.nome);
+
+
+    // Eu mostro somente as cores que possuem estoque.
+    const coresDisponiveis =
+        (produto.cores || [])
+            .filter(corTemEstoque)
+            .map(cor => cor.nome);
+
+
+    const coresHTML =
+        coresDisponiveis.length > 0
+
+            ? `
+                <div class="cores-lista">
+
+                    ${coresDisponiveis.map(cor => `
+                        <span class="cor-nome">
+                            ${cor}
+                        </span>
+                    `).join("")}
+
+                </div>
+            `
+
+            : `
+                <span class="sem-estoque">
+                    Esgotado
+                </span>
+            `;
+
+
+    // Eu monto o endereço da página individual do produto.
+    const linkProduto =
+        `produto.html?produto=${encodeURIComponent(slug)}`;
+
+
+    return `
+
+        <article class="produto">
+
+            <a
+                href="${linkProduto}"
+                class="produto-imagem-link"
+                aria-label="Ver ${produto.nome}"
+            >
+
+                <div class="produto-imagem">
+
+                    <img
+                        src="${primeiraImagem}"
+                        alt="${produto.nome} - ${primeiraCorDisponivel.nome}"
+                        loading="lazy"
+                    >
+
+                </div>
+
+            </a>
+
+
+            <div class="produto-informacoes">
+
+                <span class="produto-categoria">
+                    ${produto.categoria}
+                </span>
+
+
+                <h3>
+                    ${produto.nome}
+                </h3>
+
+
+                <div class="precos">
+
+                    <strong>
+                        R$ ${produto.precoPix.toFixed(2).replace(".", ",")}
+                    </strong>
+
+                    <span>
+                        no Pix
+                    </span>
+
+                </div>
+
+
+                <div class="preco-cartao">
+
+                    R$
+                    ${produto.precoCartao.toFixed(2).replace(".", ",")}
+                    no cartão
+
+                </div>
+
+
+                <div class="cores">
+
+                    <span class="cores-titulo">
+                        Cores:
+                    </span>
+
+                    ${coresHTML}
+
+                </div>
+
+
+                <a
+                    href="${linkProduto}"
+                    class="botao-instagram botao-produto"
+                >
+                    Ver produto
+                </a>
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+// ==========================================
+// MOSTRAR PRODUTOS
+// ==========================================
+
+function mostrarProdutos(categoria = "Todos") {
+
+    const containerProdutos =
+        document.querySelector(".produtos");
+
+
+    if (!containerProdutos) {
+        return;
+    }
+
+
+    // Eu verifico se o arquivo de produtos foi carregado.
+    if (
+        typeof produtos === "undefined" ||
+        !Array.isArray(produtos)
+    ) {
+
+        console.error(
+            "Erro: produtos.js não foi carregado corretamente."
+        );
+
+        containerProdutos.innerHTML = `
+            <p class="mensagem-produtos">
+                Não foi possível carregar a coleção.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    let produtosFiltrados = produtos;
+
+
+    if (categoria !== "Todos") {
+
+        produtosFiltrados =
+            produtos.filter(
+                produto => produto.categoria === categoria
+            );
+
+    }
+
+
+    produtosFiltrados =
+        produtosFiltrados.filter(produtoTemEstoque);
+
+
+    if (produtosFiltrados.length === 0) {
+
+        containerProdutos.innerHTML = `
+            <p class="mensagem-produtos">
+                Nenhum produto disponível nesta categoria.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    containerProdutos.innerHTML =
+        produtosFiltrados
+            .map(criarCardProduto)
+            .join("");
 
 }
 
@@ -723,155 +344,46 @@ function criarProdutos() {
 // FILTROS
 // ==========================================
 
-const botoesFiltro =
-    document.querySelectorAll(
-        ".filtro"
-    );
+const filtros =
+    document.querySelectorAll(".filtro");
 
 
-for (
-    let i = 0;
-    i < botoesFiltro.length;
-    i++
-) {
+if (filtros.length > 0) {
 
-    botoesFiltro[i].addEventListener(
-        "click",
-        function () {
+    filtros.forEach((filtro) => {
 
-            categoriaSelecionada =
-                botoesFiltro[i]
-                    .dataset
-                    .categoria;
+        filtro.addEventListener("click", () => {
+
+            filtros.forEach((item) => {
+                item.classList.remove("ativo");
+            });
 
 
-            for (
-                let j = 0;
-                j < botoesFiltro.length;
-                j++
-            ) {
-
-                botoesFiltro[j]
-                    .classList
-                    .remove(
-                        "ativo"
-                    );
-
-            }
+            filtro.classList.add("ativo");
 
 
-            botoesFiltro[i]
-                .classList
-                .add(
-                    "ativo"
-                );
+            const categoria =
+                filtro.dataset.categoria || "Todos";
 
 
-            criarProdutos();
+            mostrarProdutos(categoria);
 
-        }
-    );
+        });
+
+    });
 
 }
 
 
 // ==========================================
-// MENU MOBILE
+// INICIALIZAÇÃO DA COLEÇÃO
 // ==========================================
 
-const botaoMenu =
-    document.querySelector(
-        ".menu-mobile"
-    );
+// Eu só tento criar os cards quando existe
+// um container de produtos na página atual.
 
+if (document.querySelector(".produtos")) {
 
-const menuNavegacao =
-    document.querySelector(
-        "#menu-navegacao"
-    );
-
-
-if (
-    botaoMenu &&
-    menuNavegacao
-) {
-
-    botaoMenu.addEventListener(
-        "click",
-        function () {
-
-            const menuAberto =
-                menuNavegacao.classList.toggle(
-                    "menu-aberto"
-                );
-
-
-            botaoMenu.setAttribute(
-                "aria-expanded",
-                menuAberto
-            );
-
-
-            if (menuAberto) {
-
-                botaoMenu.textContent =
-                    "✕";
-
-            } else {
-
-                botaoMenu.textContent =
-                    "☰";
-
-            }
-
-        }
-    );
-
-
-    const linksMenu =
-        menuNavegacao.querySelectorAll(
-            "a"
-        );
-
-
-    for (
-        let i = 0;
-        i < linksMenu.length;
-        i++
-    ) {
-
-        linksMenu[i].addEventListener(
-            "click",
-            function () {
-
-                menuNavegacao.classList.remove(
-                    "menu-aberto"
-                );
-
-
-                botaoMenu.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-
-                botaoMenu.textContent =
-                    "☰";
-
-            }
-        );
-
-    }
-
-}
-
-
-// ==========================================
-// INICIAR PRODUTOS
-// ==========================================
-
-if (containerProdutos) {
-
-    criarProdutos();
+    mostrarProdutos("Todos");
 
 }
