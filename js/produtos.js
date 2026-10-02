@@ -70,8 +70,8 @@ Adicione esta peça essencial ao seu guarda-roupa e aproveite a combinação per
                 },
 
                 imagens: [
-                    "assets/images/produtos/blusas/top-tube-frente-branco.webp",
-                    "assets/images/produtos/blusas/top-tube-costas-branco.webp"
+                    "assets/images/produtos/blusas/top-tube-costas-branco.webp",
+                    "assets/images/produtos/blusas/top-tube-frente-branco.webp"
                 ]
             },
 
