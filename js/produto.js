@@ -1087,7 +1087,7 @@ function inicializarProduto() {
 
 
         if (
-            !tamanhoTemEstoque(
+            !tamanhoTem(
                 corSelecionada,
                 tamanhoSelecionado
             )
@@ -1281,7 +1281,7 @@ Aguardo a confirmação do pedido. ✨`;
         () => {
 
             const mensagem =
-                `Olá! Gostaria de saber mais sobre o produto ${produtoAtual.nome}.`;
+                `Olha essa roupa linda no site da Áurea! ${produtoAtual.nome}.`;
 
 
             const url =
