@@ -18,6 +18,8 @@ const produtos = [
 
         categoria: "Blusas",
 
+        disponivel: true,
+
         precoPix: 35.00,
 
         precoCartao: 38.00,
@@ -64,9 +66,9 @@ Adicione esta peça essencial ao seu guarda-roupa e aproveite a combinação per
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -81,9 +83,9 @@ Adicione esta peça essencial ao seu guarda-roupa e aproveite a combinação per
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -107,6 +109,8 @@ Adicione esta peça essencial ao seu guarda-roupa e aproveite a combinação per
         slug: "top-halter",
 
         categoria: "Blusas",
+
+        disponivel: true,
 
         precoPix: 38.00,
 
@@ -156,9 +160,9 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -173,9 +177,9 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -199,6 +203,8 @@ Uma básica indispensável no guarda-roupa!`,
         slug: "blusa-ombro-a-ombro",
 
         categoria: "Blusas",
+
+        disponivel: true,
 
         precoPix: 38.00,
 
@@ -247,9 +253,9 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -264,9 +270,9 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -290,6 +296,8 @@ Uma básica indispensável no guarda-roupa!`,
         slug: "blusa-decote-costas",
 
         categoria: "Blusas",
+
+        disponivel: true,
 
         precoPix: 40.00,
 
@@ -338,9 +346,9 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    P: 1,
-                    M: 1,
-                    G: 1
+                    P: 10,
+                    M: 10,
+                    G: 10
                 },
 
                 imagens: [
@@ -365,6 +373,8 @@ Uma básica indispensável no guarda-roupa!`,
         slug: "polo-basica",
 
         categoria: "Blusas",
+
+        disponivel: true,
 
         precoPix: 40.00,
 
@@ -399,7 +409,7 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    "Único": 1
+                    "Único": 10
                 },
 
                 imagens: [
@@ -414,7 +424,7 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    "Único": 1
+                    "Único": 10
                 },
 
                 imagens: [
@@ -438,6 +448,8 @@ Uma básica indispensável no guarda-roupa!`,
         slug: "calca-jeans",
 
         categoria: "Calças",
+
+        disponivel: true,
 
         precoPix: 80.00,
 
@@ -476,13 +488,13 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    "34": 1,
-                    "36": 1,
-                    "38": 1,
-                    "40": 1,
-                    "42": 1,
-                    "44": 1,
-                    "46": 1
+                    "34": 10,
+                    "36": 10,
+                    "38": 10,
+                    "40": 10,
+                    "42": 10,
+                    "44": 10,
+                    "46": 10
                 },
 
                 imagens: [
@@ -497,13 +509,13 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    "34": 1,
-                    "36": 1,
-                    "38": 1,
-                    "40": 1,
-                    "42": 1,
-                    "44": 1,
-                    "46": 1
+                    "34": 10,
+                    "36": 10,
+                    "38": 10,
+                    "40": 10,
+                    "42": 10,
+                    "44": 10,
+                    "46": 10
                 },
 
                 imagens: [
@@ -518,13 +530,13 @@ Uma básica indispensável no guarda-roupa!`,
                 disponivel: true,
 
                 estoque: {
-                    "34": 1,
-                    "36": 1,
-                    "38": 1,
-                    "40": 1,
-                    "42": 1,
-                    "44": 1,
-                    "46": 1
+                    "34": 10,
+                    "36": 10,
+                    "38": 10,
+                    "40": 10,
+                    "42": 10,
+                    "44": 10,
+                    "46": 10
                 },
 
                 imagens: [

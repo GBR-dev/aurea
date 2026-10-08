@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Eu deixo essa configuração para o site funcionar corretamente no celular. -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Áurea | Carrinho</title>
+
+    <meta
+        name="description"
+        content="Revise suas escolhas e finalize seu pedido na Áurea."
+    >
+
+    <!-- Eu uso a mesma folha de estilos de todas as páginas da Áurea. -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
+
+    <!-- ==========================================
+         HEADER
+         Eu mantenho exatamente a mesma estrutura
+         usada nas outras páginas do site.
+         ========================================== -->
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <a
+                href="index.html"
+                class="logo-link"
+            >
+
+                <img
+                    src="assets/images/logo/aurea-logo.png"
+                    alt="Áurea"
+                    class="logo"
+                >
+
+            </a>
+
+
+            <button
+                class="menu-mobile"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+
+            <nav class="nav">
+
+                <a href="index.html">
+                    Início
+                </a>
+
+                <a href="colecao.html">
+                    Coleção
+                </a>
+
+                <a href="sobre.html">
+                    Sobre
+                </a>
+
+                <a href="contato.html">
+                    Contato
+                </a>
+
+            </nav>
+
+            <!-- Eu deixo o espaço do carrinho para o script adicionar o ícone automaticamente. -->
+
+        </div>
+
+    </header>
+
+
+    <!-- ==========================================
+         CONTEÚDO PRINCIPAL
+         ========================================== -->
+
+    <main>
+
+        <section class="pagina-interna">
+
+            <div class="cabecalho-pagina">
+
+                <span>
+                    ÁUREA
+                </span>
+
+                <h1>
+                    Meu carrinho
+                </h1>
+
+                <p>
+                    Revise suas escolhas antes de finalizar o pedido.
+                </p>
+
+            </div>
+
+
+            <!-- ==========================================
+                 CARRINHO VAZIO
+                 ========================================== -->
+
+            <div
+                id="carrinho-vazio"
+                class="carrinho-vazio"
+            >
+
+                <div class="carrinho-vazio-icone">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            cx="9"
+                            cy="20"
+                            r="1"
+                        ></circle>
+
+                        <circle
+                            cx="18"
+                            cy="20"
+                            r="1"
+                        ></circle>
+
+                        <path
+                            d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.5L21 8H6"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h2>
+                    Seu carrinho está vazio
+                </h2>
+
+
+                <p>
+                    Escolha suas peças favoritas para começar seu pedido.
+                </p>
+
+
+                <a
+                    href="colecao.html"
+                    class="botao-principal"
+                >
+                    Ver coleção
+                </a>
+
+            </div>
+
+
+            <!-- ==========================================
+                 LISTA DE PRODUTOS
+                 ========================================== -->
+
+            <div
+                id="lista-carrinho"
+                class="lista-carrinho"
+            >
+                <!-- Eu deixo essa área vazia porque o carrinho.js monta os produtos automaticamente. -->
+            </div>
+
+
+            <!-- ==========================================
+                 RESUMO DO PEDIDO
+                 ========================================== -->
+
+            <div
+                id="resumo-carrinho"
+                class="resumo-carrinho"
+            >
+
+                <div class="resumo-carrinho-conteudo">
+
+                    <div class="resumo-carrinho-linha">
+
+                        <span>
+                            Quantidade
+                        </span>
+
+                        <strong>
+
+                            <span id="quantidade-total-carrinho">
+                                0
+                            </span>
+
+                            item(ns)
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="resumo-carrinho-linha total">
+
+                        <span>
+                            Total no Pix
+                        </span>
+
+                        <strong id="total-carrinho">
+                            R$ 0,00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="resumo-carrinho-acoes">
+
+                        <button
+                            type="button"
+                            id="limpar-carrinho"
+                            class="botao-limpar-carrinho"
+                        >
+                            Limpar carrinho
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="finalizar-pedido"
+                            class="botao-finalizar-carrinho"
+                        >
+                            Finalizar pelo WhatsApp
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         FOOTER
+         Eu mantenho exatamente a estrutura das
+         outras páginas da Áurea.
+         ========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-conteudo">
+
+            <div class="footer-marca">
+
+                <img
+                    src="assets/images/logo/aurea-logo.png"
+                    alt="Áurea"
+                >
+
+                <p>
+                    Seu estilo, sua essência!
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Início
+                </a>
+
+                <a href="colecao.html">
+                    Coleção
+                </a>
+
+                <a href="sobre.html">
+                    Sobre
+                </a>
+
+                <a href="contato.html">
+                    Contato
+                </a>
+
+            </div>
+
+
+            <!-- Eu deixo os links sociais para o script transformar em ícones. -->
+
+            <div class="footer-social">
+
+                <a
+                    href="https://www.instagram.com/useaurea.m/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Instagram
+                </a>
+
+                <a href="contato.html">
+                    WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Áurea. Todos os direitos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+
+    <!-- Eu carrego os produtos primeiro. -->
+    <script src="js/produtos.js"></script>
+
+    <!-- Eu carrego as funções gerais do site depois. -->
+    <script src="js/script.js"></script>
+
+    <!-- Eu carrego o funcionamento específico do carrinho por último. -->
+    <script src="js/carrinho.js"></script>
+
+</body>
+
+</html>

@@ -166,15 +166,18 @@
 
     </footer>
 
+<!-- Eu carrego os produtos antes dos outros scripts. -->
+<script src="js/produtos.js"></script>
 
-    <!-- Eu carrego os produtos antes do JavaScript da página. -->
-    <script src="js/produtos.js"></script>
+<!-- Eu carrego as funções gerais do site. -->
+<script src="js/script.js"></script>
 
-    <!-- Eu carrego as funções gerais do site. -->
-    <script src="js/script.js"></script>
+<!-- Eu carrego o funcionamento específico da página do produto. -->
+<script src="js/produto.js"></script>
 
-    <!-- Eu carrego somente aqui o código específico do produto. -->
-    <script src="js/produto.js"></script>
+<!-- Eu carrego o carrinho por último para ele encontrar
+     o produto e os elementos que o produto.js criou. -->
+<script src="js/carrinho.js"></script>
 
 </body>
 

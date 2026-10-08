@@ -1,7 +1,9 @@
+
 // ==========================================
 // PÁGINA DE PRODUTO ÁUREA
 // Eu cuido aqui da galeria, cores, tamanhos,
-// estoque, descrição e compartilhamento.
+// estoque, quantidade, pagamento, descrição
+// e compartilhamento.
 // ==========================================
 
 
@@ -101,6 +103,14 @@ function inicializarProduto() {
 
     let tamanhoSelecionado =
         null;
+
+
+    let quantidadeSelecionada =
+        1;
+
+
+    let pagamentoSelecionado =
+        "Pix";
 
 
     let imagemAtual =
@@ -227,11 +237,11 @@ function inicializarProduto() {
 
             <div class="produto-precos">
 
-                <strong>
+                <strong id="preco-produto-atual">
                     R$ ${produtoAtual.precoPix.toFixed(2).replace(".", ",")}
                 </strong>
 
-                <span>
+                <span id="tipo-preco-produto">
                     no Pix
                 </span>
 
@@ -271,6 +281,68 @@ function inicializarProduto() {
             </div>
 
 
+            <div class="produto-opcao">
+
+                <h3>
+                    Quantidade
+                </h3>
+
+                <div class="quantidade-produto">
+
+                    <button
+                        type="button"
+                        id="diminuir-quantidade"
+                        aria-label="Diminuir quantidade"
+                    >
+                        −
+                    </button>
+
+                    <span id="quantidade-produto">
+                        1
+                    </span>
+
+                    <button
+                        type="button"
+                        id="aumentar-quantidade"
+                        aria-label="Aumentar quantidade"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="produto-opcao">
+
+                <h3>
+                    Forma de pagamento
+                </h3>
+
+                <div class="pagamentos-produto">
+
+                    <button
+                        type="button"
+                        class="pagamento-produto ativo"
+                        data-pagamento="Pix"
+                    >
+                        Pix
+                    </button>
+
+                    <button
+                        type="button"
+                        class="pagamento-produto"
+                        data-pagamento="Cartão"
+                    >
+                        Cartão
+                    </button>
+
+                </div>
+
+            </div>
+
+
             <div
                 class="produto-status"
                 id="produto-status"
@@ -279,18 +351,18 @@ function inicializarProduto() {
 
             <a
                 id="botao-compra-produto"
-                href="https://www.instagram.com/useaurea.m/"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="produto-botao-compra"
             >
-                Comprar pelo Instagram
+                Escolha cor e tamanho
             </a>
 
 
             <p class="produto-reposicao">
-                Após escolher a cor e o tamanho,
-                fale conosco para confirmar a disponibilidade.
+                Escolha cor, tamanho, quantidade e forma
+                de pagamento antes de finalizar.
             </p>
 
 
@@ -538,12 +610,62 @@ function inicializarProduto() {
         document.querySelector("#botao-compra-produto");
 
 
+    const precoProdutoAtual =
+        document.querySelector("#preco-produto-atual");
+
+
+    const tipoPrecoProduto =
+        document.querySelector("#tipo-preco-produto");
+
+
+    const quantidadeElemento =
+        document.querySelector("#quantidade-produto");
+
+
+    const diminuirQuantidade =
+        document.querySelector("#diminuir-quantidade");
+
+
+    const aumentarQuantidade =
+        document.querySelector("#aumentar-quantidade");
+
+
+    const pagamentos =
+        document.querySelectorAll(".pagamento-produto");
+
+
     const setaAnterior =
         document.querySelector(".seta-anterior");
 
 
     const setaProxima =
         document.querySelector(".seta-proxima");
+
+
+    // ==========================================
+    // ATUALIZAR PREÇO
+    // Eu mostro o preço correspondente à forma
+    // de pagamento escolhida.
+    // ==========================================
+
+    function atualizarPreco() {
+
+        const preco =
+            pagamentoSelecionado === "Cartão"
+                ? produtoAtual.precoCartao
+                : produtoAtual.precoPix;
+
+
+        precoProdutoAtual.textContent =
+            `R$ ${Number(preco).toFixed(2).replace(".", ",")}`;
+
+
+        tipoPrecoProduto.textContent =
+            pagamentoSelecionado === "Cartão"
+                ? "no cartão"
+                : "no Pix";
+
+    }
 
 
     // ==========================================
@@ -701,8 +823,14 @@ function inicializarProduto() {
                             null;
 
 
+                        quantidadeSelecionada =
+                            1;
+
+
                         imagemAtual = 0;
 
+
+                        atualizarQuantidade();
 
                         atualizarImagem();
 
@@ -711,6 +839,8 @@ function inicializarProduto() {
                         atualizarTamanhos();
 
                         atualizarStatus();
+
+                        atualizarBotaoCompra();
 
                     }
                 );
@@ -777,15 +907,20 @@ function inicializarProduto() {
                     "click",
                     () => {
 
-                // Eu salvo o tamanho escolhido pela cliente.
-                tamanhoSelecionado =
-                    botao.dataset.tamanho;
+                        // Eu salvo o tamanho escolhido pela cliente.
+                        tamanhoSelecionado =
+                            botao.dataset.tamanho;
 
-                atualizarTamanhos();
+                        quantidadeSelecionada =
+                            1;
 
-                atualizarStatus();
+                        atualizarQuantidade();
 
-                atualizarBotaoCompra();
+                        atualizarTamanhos();
+
+                        atualizarStatus();
+
+                        atualizarBotaoCompra();
 
                     }
                 );
@@ -793,6 +928,127 @@ function inicializarProduto() {
             });
 
     }
+
+
+    // ==========================================
+    // QUANTIDADE
+    // ==========================================
+
+    function atualizarQuantidade() {
+
+        quantidadeElemento.textContent =
+            quantidadeSelecionada;
+
+    }
+
+
+    function aumentarQuantidadeProduto() {
+
+        if (
+            !corSelecionada ||
+            !tamanhoSelecionado
+        ) {
+            return;
+        }
+
+
+        const estoqueDisponivel =
+            corSelecionada.estoque
+                ? Number(
+                    corSelecionada.estoque[
+                        tamanhoSelecionado
+                    ]
+                )
+                : 99;
+
+
+        if (
+            quantidadeSelecionada >=
+            estoqueDisponivel
+        ) {
+            return;
+        }
+
+
+        quantidadeSelecionada += 1;
+
+
+        atualizarQuantidade();
+
+        atualizarBotaoCompra();
+
+    }
+
+
+    function diminuirQuantidadeProduto() {
+
+        if (
+            quantidadeSelecionada <= 1
+        ) {
+            return;
+        }
+
+
+        quantidadeSelecionada -= 1;
+
+
+        atualizarQuantidade();
+
+        atualizarBotaoCompra();
+
+    }
+
+
+    diminuirQuantidade.addEventListener(
+        "click",
+        diminuirQuantidadeProduto
+    );
+
+
+    aumentarQuantidade.addEventListener(
+        "click",
+        aumentarQuantidadeProduto
+    );
+
+
+    // ==========================================
+    // PAGAMENTO
+    // ==========================================
+
+    pagamentos.forEach(
+        (botao) => {
+
+            botao.addEventListener(
+                "click",
+                () => {
+
+                    pagamentos.forEach(
+                        item => {
+                            item.classList.remove(
+                                "ativo"
+                            );
+                        }
+                    );
+
+
+                    botao.classList.add(
+                        "ativo"
+                    );
+
+
+                    pagamentoSelecionado =
+                        botao.dataset.pagamento;
+
+
+                    atualizarPreco();
+
+                    atualizarBotaoCompra();
+
+                }
+            );
+
+        }
+    );
 
 
     // ==========================================
@@ -845,14 +1101,26 @@ function inicializarProduto() {
         }
 
 
+        const estoque =
+            corSelecionada.estoque
+                ? Number(
+                    corSelecionada.estoque[
+                        tamanhoSelecionado
+                    ]
+                )
+                : 99;
+
+
         statusProduto.textContent =
-            `Última unidade disponível: ${corSelecionada.nome} — tamanho ${tamanhoSelecionado}.`;
+            `${estoque} unidade${estoque === 1 ? "" : "s"} disponível${estoque === 1 ? "" : "is"} para esta escolha.`;
 
     }
 
 
     // ==========================================
     // BOTÃO DE COMPRA
+    // Eu atualizo o botão principal conforme a
+    // cliente escolhe todas as opções.
     // ==========================================
 
     function atualizarBotaoCompra() {
@@ -866,27 +1134,66 @@ function inicializarProduto() {
             )
         ) {
 
-            botaoCompra.classList.add("desativado");
+            botaoCompra.classList.add(
+                "desativado"
+            );
+
 
             botaoCompra.textContent =
                 "Escolha cor e tamanho";
 
+
             botaoCompra.href =
                 "#";
+
 
             return;
 
         }
 
 
-        botaoCompra.classList.remove("desativado");
+        botaoCompra.classList.remove(
+            "desativado"
+        );
+
 
         botaoCompra.textContent =
-            "Comprar pelo Instagram";
+            "Comprar pelo WhatsApp";
+
+
+        const preco =
+            pagamentoSelecionado === "Cartão"
+                ? Number(produtoAtual.precoCartao)
+                : Number(produtoAtual.precoPix);
+
+
+        const subtotal =
+            preco *
+            quantidadeSelecionada;
+
+
+        const mensagem =
+`Olá! Gostaria de fazer um pedido na Áurea. ✨
+
+🛍️ Meu pedido:
+
+Produto: ${produtoAtual.nome}
+Cor: ${corSelecionada.nome}
+Tamanho: ${tamanhoSelecionado}
+Quantidade: ${quantidadeSelecionada}
+Forma de pagamento: ${pagamentoSelecionado}
+Valor unitário: R$ ${preco.toFixed(2).replace(".", ",")}
+Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}
+
+💰 Total: R$ ${subtotal.toFixed(2).replace(".", ",")}
+
+Aguardo a confirmação do pedido. ✨`;
 
 
         botaoCompra.href =
-            "https://www.instagram.com/useaurea.m/";
+            `https://wa.me/5511992958541?text=${encodeURIComponent(
+                mensagem
+            )}`;
 
     }
 
@@ -935,26 +1242,28 @@ function inicializarProduto() {
     );
 
 
-// ==========================================
-// ZOOM
-// Eu faço o zoom pela área inteira da foto,
-// mantendo a imagem centralizada.
-// ==========================================
+    // ==========================================
+    // ZOOM
+    // Eu faço o zoom pela área inteira da foto,
+    // mantendo a imagem centralizada.
+    // ==========================================
 
-const containerZoom =
-    document.querySelector(".produto-zoom-container");
-
-
-containerZoom.addEventListener(
-    "click",
-    () => {
-
-        imagemProduto.classList.toggle(
-            "zoom-ativo"
+    const containerZoom =
+        document.querySelector(
+            ".produto-zoom-container"
         );
 
-    }
-);
+
+    containerZoom.addEventListener(
+        "click",
+        () => {
+
+            imagemProduto.classList.toggle(
+                "zoom-ativo"
+            );
+
+        }
+    );
 
 
     // ==========================================
@@ -1041,6 +1350,10 @@ containerZoom.addEventListener(
     atualizarCores();
 
     atualizarTamanhos();
+
+    atualizarQuantidade();
+
+    atualizarPreco();
 
     atualizarStatus();
 
