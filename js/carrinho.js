@@ -13,6 +13,24 @@ const CHAVE_CARRINHO_LOCAL = "aureaCarrinho";
 
 const NUMERO_WHATSAPP = "5511992958541";
 
+// Eu salvo a forma de pagamento escolhida para o pedido inteiro.
+const CHAVE_PAGAMENTO = "aureaPagamento";
+
+function obterFormaPagamento() {
+    return localStorage.getItem(CHAVE_PAGAMENTO) || "Pix";
+}
+
+// Eu pego o preço de cada peça de acordo com o pagamento escolhido.
+function obterPrecoItem(item) {
+    const pagamento = obterFormaPagamento();
+
+    if (pagamento === "Cartão") {
+        return Number(item.precoCartao ?? item.preco ?? 0);
+    }
+
+    return Number(item.precoPix ?? item.preco ?? 0);
+}
+
 
 // ==========================================
 // RECUPERAR CARRINHO
@@ -85,23 +103,14 @@ function formatarPreco(valor) {
 // TOTAL DO CARRINHO
 // ==========================================
 
+
 function calcularTotal(carrinho) {
-
-    return carrinho.reduce(
-        (total, item) => {
-
-            return total +
-                (
-                    Number(item.preco) *
-                    Number(item.quantidade)
-                );
-
-        },
-        0
-    );
-
+    return carrinho.reduce((total, item) => {
+        return total +
+            obterPrecoItem(item) *
+            Number(item.quantidade);
+    }, 0);
 }
-
 
 // ==========================================
 // CRIAR IDENTIFICADOR DO ITEM
@@ -109,22 +118,13 @@ function calcularTotal(carrinho) {
 // para diferenciar corretamente cada escolha.
 // ==========================================
 
-function criarIdItem(
-    produto,
-    cor,
-    tamanho,
-    pagamento = "Pix"
-) {
 
+function criarIdItem(produto, cor, tamanho) {
     return [
         produto.slug || gerarSlug(produto.nome),
         cor,
-        tamanho,
-        pagamento
-    ]
-        .join("|")
-        .toLowerCase();
-
+        tamanho
+    ].join("|").toLowerCase();
 }
 
 
@@ -140,23 +140,25 @@ function adicionarAoCarrinho(
     pagamento = "Pix"
 ) {
 
+    
     const carrinho =
         obterCarrinho();
 
 
-    const preco =
-        pagamento === "Cartão"
-            ? Number(produto.precoCartao)
-            : Number(produto.precoPix);
+
+    const precoPix = Number(produto.precoPix);
+    const precoCartao = Number(produto.precoCartao);
+
+    const preco = obterFormaPagamento() === "Cartão"
+        ? precoCartao
+        : precoPix;
 
 
-    const id =
-        criarIdItem(
-            produto,
-            cor.nome,
-            tamanho,
-            pagamento
-        );
+    const id = criarIdItem(
+    produto,
+    cor.nome,
+    tamanho
+);
 
 
     const itemExistente =
@@ -195,11 +197,10 @@ function adicionarAoCarrinho(
             quantidade:
                 Number(quantidade),
 
-            pagamento:
-                pagamento,
-
-            preco:
-                preco,
+            // Eu guardo os dois preços para recalcular o pedido no final.
+            precoPix: precoPix,
+            precoCartao: precoCartao,
+            preco: preco,
 
             imagem:
                 cor.imagens?.[0] || ""
@@ -366,13 +367,13 @@ function criarPainelCarrinho() {
             </div>
 
 
-            <button
-                type="button"
-                class="carrinho-fechar"
-                aria-label="Fechar carrinho"
-            >
-                ×
-            </button>
+    <button
+        type="button"
+        class="carrinho-fechar"
+        aria-label="Fechar carrinho"
+    >
+        ${criarIcone("fechar", 22)}
+    </button>
 
         </div>
 
@@ -568,7 +569,7 @@ function renderizarCarrinhoLateral() {
             <div class="carrinho-lateral-vazio">
 
                 <div class="carrinho-lateral-vazio-icone">
-                    🛍️
+                        ${criarIcone("sacola", 36)}
                 </div>
 
                 <h3>
@@ -651,7 +652,7 @@ function renderizarCarrinhoLateral() {
 
 
                             <p>
-                                Pagamento: ${item.pagamento || "Pix"}
+                                Valor unitário: ${formatarPreco(obterPrecoItem(item))}
                             </p>
 
 
@@ -674,7 +675,7 @@ function renderizarCarrinhoLateral() {
                                         data-indice="${indice}"
                                         aria-label="Diminuir quantidade"
                                     >
-                                        −
+                                        ${criarIcone("menos", 16)}
                                     </button>
 
 
@@ -689,7 +690,7 @@ function renderizarCarrinhoLateral() {
                                         data-indice="${indice}"
                                         aria-label="Aumentar quantidade"
                                     >
-                                        +
+                                        ${criarIcone("mais", 16)}
                                     </button>
 
                                 </div>
@@ -701,7 +702,8 @@ function renderizarCarrinhoLateral() {
                                     data-acao="remover"
                                     data-indice="${indice}"
                                 >
-                                    Remover
+                                    ${criarIcone("lixeira", 16)}
+                                <span>Remover</span>
                                 </button>
 
                             </div>
@@ -721,6 +723,33 @@ function renderizarCarrinhoLateral() {
 
 
     rodape.innerHTML = `
+
+
+<div class="carrinho-pagamento">
+    <h3>Forma de pagamento</h3>
+
+    <p>Escolha como deseja pagar o pedido inteiro.</p>
+
+    <label>
+        <input
+            type="radio"
+            name="pagamento-carrinho"
+            value="Pix"
+            ${obterFormaPagamento() === "Pix" ? "checked" : ""}
+        >
+        Pix
+    </label>
+
+    <label>
+        <input
+            type="radio"
+            name="pagamento-carrinho"
+            value="Cartão"
+            ${obterFormaPagamento() === "Cartão" ? "checked" : ""}
+        >
+        Cartão
+    </label>
+</div>
 
         <div
             class="carrinho-lateral-total"
@@ -755,6 +784,21 @@ function renderizarCarrinhoLateral() {
         </button>
 
     `;
+
+
+ // Eu atualizo os preços quando a cliente escolhe o pagamento.
+document.querySelectorAll(
+    'input[name="pagamento-carrinho"]'
+).forEach(opcao => {
+    opcao.addEventListener("change", () => {
+        localStorage.setItem(
+            CHAVE_PAGAMENTO,
+            opcao.value
+        );
+
+        renderizarCarrinhoLateral();
+    });
+});
 
 
     // Eu adiciono aqui os controles de quantidade.
@@ -913,6 +957,7 @@ function criarMensagemWhatsApp() {
     const carrinho =
         obterCarrinho();
 
+    const pagamento = obterFormaPagamento();
 
     const total =
         calcularTotal(carrinho);
@@ -929,9 +974,8 @@ function criarMensagemWhatsApp() {
     carrinho.forEach(
         (item, indice) => {
 
-            const subtotal =
-                Number(item.preco) *
-                Number(item.quantidade);
+    const precoUnitario = obterPrecoItem(item);
+const subtotal = precoUnitario * Number(item.quantidade);
 
 
             mensagem +=
@@ -939,8 +983,7 @@ function criarMensagemWhatsApp() {
 Cor: ${item.cor}
 Tamanho: ${item.tamanho}
 Quantidade: ${item.quantidade}
-Forma de pagamento: ${item.pagamento || "Pix"}
-Valor unitário: ${formatarPreco(item.preco)}
+Valor unitário: ${formatarPreco(precoUnitario)}
 Subtotal: ${formatarPreco(subtotal)}
 
 `;
@@ -950,9 +993,11 @@ Subtotal: ${formatarPreco(subtotal)}
 
 
     mensagem +=
-`💰 Total: ${formatarPreco(total)}
+    `💳 Forma de pagamento do pedido: ${pagamento}
 
-Aguardo a confirmação do meu pedido. ✨`;
+    💰 Total: ${formatarPreco(total)}
+
+    Aguardo a confirmação do meu pedido. ✨`;
 
 
     return mensagem;
@@ -1120,12 +1165,6 @@ function prepararBotaoProduto() {
                 );
 
 
-            const pagamentoSelecionado =
-                document.querySelector(
-                    ".pagamento-produto.ativo"
-                );
-
-
             if (
                 !corSelecionada ||
                 !tamanhoSelecionado
@@ -1166,21 +1205,6 @@ function prepararBotaoProduto() {
                 return;
 
             }
-
-
-            if (!pagamentoSelecionado) {
-
-                mostrarAvisoCarrinho(
-                    "Escolha a forma de pagamento."
-                );
-
-                return;
-
-            }
-
-
-            const pagamento =
-                pagamentoSelecionado.dataset.pagamento;
 
 
             const slug =
@@ -1242,8 +1266,7 @@ function prepararBotaoProduto() {
                 produto,
                 cor,
                 tamanhoSelecionado.dataset.tamanho,
-                quantidade,
-                pagamento
+                quantidade
             );
 
         }

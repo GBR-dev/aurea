@@ -6,6 +6,56 @@
 // ==========================================
 
 
+/* Eu centralizo os ícones para manter o mesmo estilo no site. */
+function criarIcone(nome, tamanho = 20) {
+    const caminhos = {
+        sacola: `
+            <path d="M5 8h14l1 13H4L5 8Z"/>
+            <path d="M9 8a3 3 0 0 1 6 0"/>
+        `,
+        fechar: `
+            <path d="m18 6-12 12M6 6l12 12"/>
+        `,
+        mais: `
+            <path d="M12 5v14M5 12h14"/>
+        `,
+        menos: `
+            <path d="M5 12h14"/>
+        `,
+        lixeira: `
+            <path d="M3 6h18M8 6V4h8v2"/>
+            <path d="m19 6-1 14H6L5 6"/>
+            <path d="M10 11v5M14 11v5"/>
+        `,
+        anterior: `
+            <path d="m15 18-6-6 6-6"/>
+        `,
+        proximo: `
+            <path d="m9 18 6-6-6-6"/>
+        `
+    };
+
+    return `
+        <svg
+            class="icone-aurea"
+            xmlns="http://www.w3.org/2000/svg"
+            width="${tamanho}"
+            height="${tamanho}"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+        >
+            ${caminhos[nome] || ""}
+        </svg>
+    `;
+}
+
+
 // ==========================================
 // MENU MOBILE
 // ==========================================
@@ -531,9 +581,9 @@ function criarIconeCarrinho() {
 
     linkCarrinho.innerHTML = `
 
-        <span class="icone-carrinho" aria-hidden="true">
-            🛒
-        </span>
+    <span class="icone-carrinho">
+    ${criarIcone("sacola", 23)}
+    </span>
 
         <span class="contador-carrinho">
             0
@@ -658,6 +708,25 @@ function criarIconesRodape() {
                 WhatsApp
             </span>
 
+        </a>
+
+    
+
+
+        <a
+            href="mailto:aureacwork@gmail.com"
+            aria-label="E-mail"
+        >
+            <svg
+                class="icone-contato"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m3 7 9 6 9-6"/>
+            </svg>
+
+            <span>E-mail</span>
         </a>
 
     `;

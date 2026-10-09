@@ -184,7 +184,7 @@ function inicializarProduto() {
                     class="seta-galeria seta-anterior"
                     aria-label="Imagem anterior"
                 >
-                    ‹
+                    ${criarIcone("anterior", 22)}
                 </button>
 
 
@@ -204,7 +204,7 @@ function inicializarProduto() {
                     class="seta-galeria seta-proxima"
                     aria-label="Próxima imagem"
                 >
-                    ›
+                    ${criarIcone("proximo", 22)}
                 </button>
 
             </div>
@@ -294,7 +294,7 @@ function inicializarProduto() {
                         id="diminuir-quantidade"
                         aria-label="Diminuir quantidade"
                     >
-                        −
+                        ${criarIcone("menos", 16)}
                     </button>
 
                     <span id="quantidade-produto">
@@ -306,37 +306,19 @@ function inicializarProduto() {
                         id="aumentar-quantidade"
                         aria-label="Aumentar quantidade"
                     >
-                        +
+                        ${criarIcone("mais", 16)}
                     </button>
 
                 </div>
 
             </div>
 
-
-            <div class="produto-opcao">
-
-                <h3>
-                    Forma de pagamento
-                </h3>
-
-                <div class="pagamentos-produto">
-
-                    <button
-                        type="button"
-                        class="pagamento-produto ativo"
-                        data-pagamento="Pix"
-                    >
-                        Pix
-                    </button>
-
-                    <button
-                        type="button"
-                        class="pagamento-produto"
-                        data-pagamento="Cartão"
-                    >
-                        Cartão
-                    </button>
+    <div class="produto-aviso-pagamento">
+        <p>
+            Você poderá escolher a forma de pagamento
+            ao finalizar seu carrinho.
+        </p>
+    </div>
 
                 </div>
 

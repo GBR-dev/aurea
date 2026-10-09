@@ -3581,3 +3581,121 @@ body.carrinho-aberto {
     }
 
 }
+
+/* Eu escondo o botão antigo que finalizava direto pelo WhatsApp. */
+.produto-botao-compra {
+    display: none !important;
+}
+
+
+/* Eu organizo a escolha de pagamento no final do carrinho. */
+.carrinho-pagamento {
+    padding: 16px;
+    margin-bottom: 18px;
+    background-color: #f8f3eb;
+    border: 1px solid #e5d8c7;
+    border-radius: 12px;
+}
+
+.carrinho-pagamento h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+}
+
+.carrinho-pagamento p {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+}
+
+.carrinho-pagamento label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.carrinho-pagamento input {
+    accent-color: #8b7355;
+}
+
+
+/* Eu padronizo os ícones da Áurea com traços delicados. */
+.icone-aurea {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+    color: var(--chocolate);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+button .icone-aurea,
+a .icone-aurea {
+    pointer-events: none;
+}
+
+button:hover .icone-aurea,
+a:hover .icone-aurea {
+    color: var(--caramelo);
+}
+
+.link-carrinho {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.icone-carrinho {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Eu alinho o ícone da lixeira com o texto do botão. */
+.remover-item-lateral {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.remover-item-lateral .icone-aurea {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Eu padronizo os ícones de contato com traços delicados da Áurea. */
+.icone-contato {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: var(--chocolate);
+}
+
+/* Eu mantenho os ícones do rodapé alinhados com seus textos. */
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-social .icone-contato {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 0;
+    color: inherit;
+    flex-shrink: 0;
+}
+
+/* Eu realço os ícones dos cards sem fugir da paleta da marca. */
+.contato-card .icone-contato {
+    color: var(--caramelo);
+}
