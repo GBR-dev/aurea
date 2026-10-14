@@ -77,6 +77,21 @@
 
     <main>
 
+        <!-- Eu apresento produtos em destaque antes do banner principal. -->
+        <section class="queridinhas secao-conteudo" aria-labelledby="titulo-queridinhas">
+            <div class="secao-cabecalho">
+                <span class="secao-eyebrow">ESCOLHAS ÁUREA</span>
+                <h2 id="titulo-queridinhas">As queridinhas da Áurea</h2>
+                <p>Peças escolhidas para inspirar combinações que têm tudo a ver com você.</p>
+            </div>
+            <div class="produtos grade-queridinhas" id="produtos-destaque" aria-live="polite">
+                <p class="mensagem-produtos">Carregando nossos destaques...</p>
+            </div>
+            <div class="secao-acoes">
+                <a href="colecao.html" class="botao-principal">Ver coleção completa</a>
+            </div>
+        </section>
+
         <!-- Eu uso esta primeira área para apresentar a identidade da Áurea. -->
         <section class="hero">
 
@@ -99,18 +114,39 @@
                 </p>
 
 
-                <!-- Eu mando a pessoa para a página exclusiva da coleção. -->
-                <a
-                    href="colecao.html"
-                    class="botao-principal"
-                >
-                    Conheça a coleção
-                </a>
+                <div class="hero-acoes">
+                    <a href="colecao.html" class="botao-principal">Ver coleção</a>
+                    <a href="#como-comprar" class="botao-secundario">Como comprar</a>
+                    <a href="#como-funciona-entrega" class="botao-secundario">Como funciona a entrega</a>
+                </div>
 
             </div>
 
         </section>
 
+
+        <section class="como-comprar secao-conteudo" id="como-comprar">
+            <div class="secao-cabecalho">
+                <span class="secao-eyebrow">SIMPLES E ESPECIAL</span>
+                <h2>Como comprar</h2>
+                <p>Escolher sua próxima peça favorita é fácil.</p>
+            </div>
+            <ol class="etapas-compra">
+                <li><span>01</span><h3>Escolha sua peça</h3><p>Explore a coleção e abra a página do produto para ver todos os detalhes.</p></li>
+                <li><span>02</span><h3>Selecione suas opções</h3><p>Escolha cor, tamanho e quantidade conforme as opções e o estoque disponíveis.</p></li>
+                <li><span>03</span><h3>Confira e finalize</h3><p>Adicione ao carrinho, confira seu pedido e siga para a finalização pelo WhatsApp.</p></li>
+            </ol>
+            <div class="secao-acoes"><a href="colecao.html" class="botao-principal">Escolher minhas peças</a></div>
+        </section>
+
+        <section class="entrega secao-conteudo" id="como-funciona-entrega">
+            <div class="entrega-conteudo">
+                <span class="secao-eyebrow">COM CARINHO, ATÉ VOCÊ</span>
+                <h2>Como funciona a entrega</h2>
+                <p>As opções, os valores e os detalhes da entrega são combinados de acordo com a sua região. Entre em contato com a Áurea para conversarmos sobre a melhor forma de receber seu pedido.</p>
+                <a class="botao-principal" href="https://wa.me/5511992958541" target="_blank" rel="noopener noreferrer">Conversar sobre a entrega</a>
+            </div>
+        </section>
 
         <!-- Eu uso esta seção para apresentar a proposta da marca. -->
         <section class="essencia">

@@ -3699,3 +3699,78 @@ a:hover .icone-aurea {
 .contato-card .icone-contato {
     color: var(--caramelo);
 }
+
+
+/* Eu mantenho os destaques e as novas seções alinhados à identidade Áurea. */
+.secao-conteudo {
+    padding: clamp(3.5rem, 7vw, 6rem) max(5%, calc((100% - 1200px) / 2));
+}
+.secao-cabecalho {
+    max-width: 720px;
+    margin: 0 auto 2.25rem;
+    text-align: center;
+}
+.secao-eyebrow {
+    display: inline-block;
+    margin-bottom: .65rem;
+    color: #754321;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+}
+.secao-cabecalho h2, .entrega h2 {
+    margin: 0 0 .8rem;
+    color: #5A321F;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+.secao-cabecalho p, .entrega p {
+    margin: 0 auto;
+    max-width: 620px;
+    color: #806F64;
+}
+.queridinhas { background: #FFFDFC; }
+.grade-queridinhas {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.grade-queridinhas .produto { min-width: 0; }
+.secao-acoes { display: flex; justify-content: center; margin-top: 2rem; }
+.hero-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1.5rem; }
+.hero-acoes .botao-secundario { display: inline-flex; align-items: center; justify-content: center; }
+.etapas-compra {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+.etapas-compra li {
+    padding: 1.7rem;
+    border: 1px solid #DCCBBC;
+    background: #FFFDFC;
+}
+.etapas-compra li > span { color: #754321; font-size: .8rem; letter-spacing: .12em; }
+.etapas-compra h3 { margin: .6rem 0; color: #5A321F; font-family: Georgia, "Times New Roman", serif; font-size: 1.35rem; font-weight: 500; }
+.etapas-compra p { margin: 0; color: #806F64; }
+.entrega { background: #EDE1D4; text-align: center; }
+.entrega-conteudo { max-width: 760px; margin: 0 auto; }
+.entrega .botao-principal { display: inline-flex; margin-top: 1.5rem; }
+#como-comprar, #como-funciona-entrega { scroll-margin-top: 100px; }
+@media (max-width: 760px) {
+    .grade-queridinhas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .etapas-compra { grid-template-columns: 1fr; }
+    .hero-acoes { align-items: stretch; flex-direction: column; }
+    .hero-acoes a { width: 100%; text-align: center; }
+}
+@media (max-width: 480px) {
+    .grade-queridinhas { grid-template-columns: 1fr; max-width: 360px; }
+    .secao-conteudo { padding-left: 1.1rem; padding-right: 1.1rem; }
+}

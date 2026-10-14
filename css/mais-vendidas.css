@@ -1,0 +1,223 @@
+
+/* ==========================================
+   DESTAQUES E INFORMAÇÕES DA ÁUREA
+   Eu organizo aqui as novas seções da página inicial.
+   ========================================== */
+
+.mais-vendidas {
+    padding: clamp(42px, 6vw, 82px) 0;
+    background: var(--branco);
+}
+
+.mais-vendidas-conteudo,
+.como-comprar-conteudo,
+.entrega-conteudo {
+    width: min(1180px, 92%);
+    margin: 0 auto;
+}
+
+.mais-vendidas-cabecalho,
+.como-comprar-cabecalho {
+    max-width: 760px;
+    margin: 0 auto 38px;
+    text-align: center;
+}
+
+.mais-vendidas-legenda,
+.como-comprar-cabecalho > span,
+.entrega-legenda {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--caramelo);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.mais-vendidas-cabecalho h2,
+.como-comprar-cabecalho h2,
+.entrega-conteudo h2 {
+    color: var(--chocolate);
+    font-family: Georgia, serif;
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.12;
+}
+
+.mais-vendidas-cabecalho p,
+.como-comprar-cabecalho p {
+    max-width: 620px;
+    margin: 14px auto 0;
+    color: var(--cinza);
+}
+
+.mais-vendidas-grade {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 38px 24px;
+}
+
+.mais-vendidas-grade .produto {
+    min-width: 0;
+}
+
+.mais-vendidas-grade .produto-imagem {
+    aspect-ratio: 4 / 5;
+}
+
+.mais-vendidas-acao {
+    display: flex;
+    justify-content: center;
+    margin-top: 42px;
+}
+
+.mais-vendidas-carregando,
+.mais-vendidas-erro {
+    grid-column: 1 / -1;
+    padding: 36px 20px;
+    color: var(--cinza);
+    text-align: center;
+}
+
+/* Eu mantenho os botões do banner organizados e acessíveis. */
+.hero-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.hero-botoes .botao-principal,
+.hero-botoes .botao-secundario {
+    min-height: 48px;
+}
+
+/* Eu explico o processo de compra em três etapas. */
+.como-comprar {
+    padding: clamp(64px, 8vw, 100px) 0;
+    background: var(--creme);
+}
+
+.passos-compra {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.passo-compra {
+    min-height: 210px;
+    padding: 30px;
+    border: 1px solid var(--borda);
+    background: rgba(255, 253, 252, 0.72);
+}
+
+.passo-compra > span {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--caramelo);
+    font-family: Georgia, serif;
+    font-size: 27px;
+}
+
+.passo-compra h3 {
+    margin-bottom: 10px;
+    color: var(--chocolate);
+    font-family: Georgia, serif;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.passo-compra p {
+    color: var(--cinza);
+    font-size: 14px;
+}
+
+.centralizar-botao {
+    display: flex;
+    justify-content: center;
+    margin-top: 34px;
+}
+
+/* Eu deixo as informações de entrega em uma seção própria. */
+.entrega {
+    padding: clamp(56px, 8vw, 90px) 0;
+    background: var(--creme-escuro);
+}
+
+.entrega-conteudo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 30px 70px;
+}
+
+.entrega-conteudo p {
+    color: var(--cinza);
+    font-size: 16px;
+}
+
+.entrega-conteudo .link-elegante {
+    width: fit-content;
+    color: var(--chocolate);
+    border-bottom: 1px solid var(--caramelo);
+    padding-bottom: 5px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+}
+
+.entrega-conteudo .link-elegante:hover {
+    color: var(--caramelo);
+}
+
+/* Eu adapto as seções para telas menores. */
+@media (max-width: 900px) {
+    .mais-vendidas-grade {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .passos-compra {
+        grid-template-columns: 1fr;
+    }
+
+    .passo-compra {
+        min-height: auto;
+    }
+
+    .entrega-conteudo {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .mais-vendidas-grade {
+        grid-template-columns: 1fr;
+        gap: 38px;
+    }
+
+    .mais-vendidas-cabecalho {
+        margin-bottom: 30px;
+    }
+
+    .hero-botoes {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .hero-botoes a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .passo-compra {
+        padding: 25px;
+    }
+
+    .entrega-conteudo .link-elegante {
+        margin-top: 4px;
+    }
+}

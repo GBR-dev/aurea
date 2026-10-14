@@ -320,13 +320,79 @@ function criarCardProduto(produto) {
 
 
 // ==========================================
+// PRODUTOS EM DESTAQUE NA PÁGINA INICIAL
+// Eu uso o cadastro oficial e mostro até três
+// produtos que estejam disponíveis e tenham imagem.
+// ==========================================
+
+function renderizarDestaques() {
+
+    const containerDestaques =
+        document.getElementById("produtos-destaque");
+
+    // Eu encerro a função nas outras páginas, que não têm esta seção.
+    if (!containerDestaques) {
+        return;
+    }
+
+    // Eu confirmo que o cadastro central dos produtos foi carregado.
+    if (typeof produtos === "undefined" || !Array.isArray(produtos)) {
+        console.error("Erro: produtos.js não foi carregado corretamente.");
+        containerDestaques.innerHTML = `
+            <p class="mensagem-produtos">
+                Não foi possível carregar os destaques. Atualize a página e tente novamente.
+            </p>
+        `;
+        return;
+    }
+
+    // Eu seleciono apenas produtos reais, disponíveis, com estoque,
+    // preços cadastrados e uma fotografia utilizável.
+    const produtosEmDestaque = produtos.filter((produto) => {
+        if (!produto || produto.disponivel === false) {
+            return false;
+        }
+
+        const temDadosDePreco =
+            Number.isFinite(Number(produto.precoPix)) &&
+            Number.isFinite(Number(produto.precoCartao));
+
+        const temImagemDisponivel = Array.isArray(produto.cores) &&
+            produto.cores.some((cor) =>
+                corTemEstoque(cor) &&
+                Array.isArray(cor.imagens) &&
+                typeof cor.imagens[0] === "string" &&
+                cor.imagens[0].trim() !== ""
+            );
+
+        return produtoTemEstoque(produto) && temDadosDePreco && temImagemDisponivel;
+    }).slice(0, 3);
+
+    const cards = produtosEmDestaque
+        .map((produto) => criarCardProduto(produto))
+        .filter(Boolean);
+
+    if (cards.length === 0) {
+        containerDestaques.innerHTML = `
+            <p class="mensagem-produtos">
+                Não há produtos disponíveis para destacar no momento.
+            </p>
+        `;
+        return;
+    }
+
+    containerDestaques.innerHTML = cards.join("");
+}
+
+
+// ==========================================
 // MOSTRAR PRODUTOS
 // ==========================================
 
 function mostrarProdutos(categoria = "Todos") {
 
     const containerProdutos =
-        document.querySelector(".produtos");
+        document.querySelector(".catalogo .produtos");
 
 
     if (!containerProdutos) {
@@ -740,6 +806,8 @@ function criarIconesRodape() {
 
 function iniciarSite() {
 
+    renderizarDestaques();
+
     // Eu crio os filtros automaticamente somente
     // quando estou em uma página que possui filtros.
     criarFiltrosAutomaticos();
@@ -747,7 +815,7 @@ function iniciarSite() {
 
     // Eu só monto os produtos quando existe
     // o espaço destinado aos cards.
-    if (document.querySelector(".produtos")) {
+    if (document.querySelector(".catalogo .produtos")) {
         mostrarProdutos("Todos");
     }
 
