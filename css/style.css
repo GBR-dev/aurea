@@ -3774,3 +3774,70 @@ a:hover .icone-aurea {
     .grade-queridinhas { grid-template-columns: 1fr; max-width: 360px; }
     .secao-conteudo { padding-left: 1.1rem; padding-right: 1.1rem; }
 }
+
+/* ==========================================
+   SELOS DE CONFIANÇA DO RODAPÉ
+   Eu destaco informações de compra com ícones
+   discretos que combinam com a identidade Áurea.
+   ========================================== */
+
+.rodape-confianca {
+    width: min(1180px, 92%);
+    margin: 0 auto 24px;
+    padding: 24px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px 56px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.selo-confianca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: var(--creme);
+}
+
+.icone-selo-confianca {
+    width: 31px;
+    height: 31px;
+    flex: 0 0 auto;
+    color: var(--creme-escuro);
+}
+
+.selo-confianca-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.selo-confianca-texto strong {
+    color: var(--creme);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.selo-confianca-texto small {
+    color: #dbcbbd;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+    .rodape-confianca {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        padding: 22px 0;
+    }
+
+    .selo-confianca {
+        width: 100%;
+        max-width: 340px;
+    }
+}
